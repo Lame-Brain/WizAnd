@@ -18,5 +18,7 @@ public class BoltacShopController : MonoBehaviour
     public void CharacterLineClicked(int n)
     {
         _selected_Character = n;
+        WhoShopsPanel.SetActive(false);
+        ShopServicesPanel.SetActive(true);
     }
 }
