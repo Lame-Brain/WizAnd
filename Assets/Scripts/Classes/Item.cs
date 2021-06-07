@@ -6,7 +6,7 @@ public class Item
 {     
     //Enums
     public enum Protection { None, Animal, Mythical, Giant, Undead, Demon, Dragon, Insect, Were, Fighter, Thief, Mage, Priest }
-    public enum Type { Sword, Axe, Mace, Flail, Dagger, Staff, Key, Rod, Helm, Armor, Shield, Gloves, Ring, Amulet, Scroll, Potion, Figurine }
+    public enum Type { Misc, Sword, Axe, Mace, Flail, Dagger, Staff, Key, Rod, Helm, Armor, Shield, Gloves, Ring, Amulet, Scroll, Potion, Figurine }
     public enum Alignment { Any, Good, Neutral, Evil }
 
     //ID

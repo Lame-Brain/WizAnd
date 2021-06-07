@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
         SaveLoadModule.LoadGame();
 
         for (int _index = 0; _index < ROSTER.Count; _index++) Debug.Log(_index + ". " + ROSTER[_index].name);
+
+        //DEBUG
+        //PARTY.Add(ROSTER[0]);
     }
     // Start is called before the first frame update
     void Start()

@@ -12,19 +12,30 @@ public class CharacterRosterInspectScreenController : MonoBehaviour
     private void Start() 
     {
         ///DEBUG -- REMOVE
-        InitRosterInspectWindow();
+        //InitRosterInspectWindow();
     }
 
-    public void InitRosterInspectWindow()
+    public void InitRosterInspectWindow(string list2Show)
     {
         //Clear any children
         if (scrollviewPanel.transform.childCount > 0) foreach (Transform child in scrollviewPanel.transform) Destroy(child.gameObject);
 
         //make new children
-        for(int _i = 0; _i < GameManager.ROSTER.Count; _i++)
+        if (list2Show == "Roster")
         {
-            _go = Instantiate(characterLine_pf, scrollviewPanel.transform);
-            _go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[_i].name + " LVL" + GameManager.ROSTER[_i].level + " " + GameManager.ROSTER[_i].alignment.ToString() + " " + GameManager.ROSTER[_i].job.ToString();
+            for (int _i = 0; _i < GameManager.ROSTER.Count; _i++)
+            {
+                _go = Instantiate(characterLine_pf, scrollviewPanel.transform);
+                _go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[_i].name + " LVL" + GameManager.ROSTER[_i].level + " " + GameManager.ROSTER[_i].alignment.ToString() + " " + GameManager.ROSTER[_i].job.ToString();
+            }
+        }
+        if (list2Show == "Party")
+        {
+            for (int _i = 0; _i < GameManager.PARTY.Count; _i++)
+            {
+                _go = Instantiate(characterLine_pf, scrollviewPanel.transform);
+                _go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[_i].name + " LVL" + GameManager.PARTY[_i].level + " " + GameManager.PARTY[_i].alignment.ToString() + " " + GameManager.PARTY[_i].job.ToString();
+            }
         }
     }
 

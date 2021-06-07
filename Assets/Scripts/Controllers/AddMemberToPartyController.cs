@@ -25,11 +25,15 @@ public class AddMemberToPartyController : MonoBehaviour
 
         DisplayRoster.Clear();
         for (int _i = 0; _i < GameManager.ROSTER.Count; _i++)
-            if (!GameManager.ROSTER[_i].plyze && 
-                !GameManager.ROSTER[_i].dead && 
-                !GameManager.ROSTER[_i].ashes && 
-                !GameManager.ROSTER[_i].stoned && 
-                !GameManager.ROSTER[_i].lost) DisplayRoster.Add(GameManager.ROSTER[_i]);
+        {
+             if (!GameManager.ROSTER[_i].plyze &&
+                 !GameManager.ROSTER[_i].dead &&
+                 !GameManager.ROSTER[_i].ashes &&
+                 !GameManager.ROSTER[_i].stoned &&
+                 !GameManager.ROSTER[_i].lost &&
+                 !DisplayParty.Contains(GameManager.ROSTER[_i]))
+                 DisplayRoster.Add(GameManager.ROSTER[_i]);
+        }
     }
     public void UpdateScreen()
     {
@@ -39,7 +43,6 @@ public class AddMemberToPartyController : MonoBehaviour
 
         for (int _i = 0; _i < DisplayRoster.Count; _i++)
         {
-            if(!DisplayParty.Contains(DisplayRoster[_i]))
             _go = Instantiate(CharacterLine_PF, RosterPanel.transform);
             _go.GetComponent<TMPro.TextMeshProUGUI>().text = DisplayRoster[_i].name + " LVL" + DisplayRoster[_i].level + " " + DisplayRoster[_i].alignment.ToString() + " " + DisplayRoster[_i].job.ToString();
         }
@@ -63,8 +66,8 @@ public class AddMemberToPartyController : MonoBehaviour
 
         if (_focusWindow == "PartyPanel")
         {
-                DisplayRoster.Add(DisplayParty[_selected_Character]);
-                DisplayParty.RemoveAt(_selected_Character);
+            DisplayRoster.Add(DisplayParty[_selected_Character]);
+            DisplayParty.RemoveAt(_selected_Character);
         }
 
         _focusWindow = "none";
@@ -73,6 +76,8 @@ public class AddMemberToPartyController : MonoBehaviour
 
     public void CharacterLineClicked(int n, string fw)
     {
+        //Debug.Log("I clicked in the " + fw + " window, on: line #" + n);
+
         _selected_Character = n;
         _focusWindow = fw;
         AddOrRemoveFromParty();

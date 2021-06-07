@@ -12,9 +12,11 @@ public class DivvyGoldController : MonoBehaviour
         int _num = GameManager.PARTY.Count;
         for (int _i = 0; _i < _num; _i++) _totalGP += GameManager.PARTY[_i].gold;
         Debug.Log("Total GP " + _totalGP);
-        int _bulkSplit = (int)_totalGP / _num;
+        int _bulkSplit = 0;
+        if (_num > 0) _bulkSplit = (int)_totalGP / _num;
         Debug.Log("Bulk Split " + _bulkSplit);
-        int _remainder = _totalGP % _num;
+        int _remainder = 0;
+        if (_num > 0) _remainder = _totalGP % _num;
         Debug.Log("remainder " + _remainder);
         for (int _i = 0; _i < _num; _i++)
         {

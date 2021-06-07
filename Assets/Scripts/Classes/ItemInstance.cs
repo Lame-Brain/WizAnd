@@ -8,4 +8,12 @@ public class ItemInstance
     public string name;
     public bool identified;
     public bool curseActive;
+
+    public ItemInstance(Item _i)
+    {
+        refID = _i.ID;
+        name = _i.itemName;
+        identified = false;
+        curseActive = false;
+    }
 }
