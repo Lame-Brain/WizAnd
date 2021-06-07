@@ -8,6 +8,7 @@ public static class SaveLoadModule
 {
     public static void SaveGame()
     {
+        Debug.Log("ALERT: GAME IS SAVING");
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/wiz1.dsk");
         bf.Serialize(file, GameManager.ROSTER);
@@ -20,6 +21,7 @@ public static class SaveLoadModule
 
     public static void LoadGame()
     {
+        Debug.Log("ALERT: GAME IS LOADING");
         if (!File.Exists(Application.persistentDataPath + "/wiz1.dsk"))
         {
             FileStream file = File.Create(Application.persistentDataPath + "/wiz1.dsk");

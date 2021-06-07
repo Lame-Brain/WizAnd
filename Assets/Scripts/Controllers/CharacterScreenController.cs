@@ -55,9 +55,31 @@ public class CharacterScreenController : MonoBehaviour
                         GameManager.ROSTER[selected_character].priestSlots[6];
         for(int _i = 0; _i < GameManager.ROSTER[selected_character].bag.Length; _i++)
         {
-            if(GameManager.ROSTER[selected_character].bag[_i] != null) BagSlots[_i].text = GameManager.ROSTER[selected_character].bag[_i].name;
             if (GameManager.ROSTER[selected_character].bag[_i] == null) BagSlots[_i].text = "";
+            if (GameManager.ROSTER[selected_character].bag[_i] != null)
+            {
+                if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "";
+                if(!CheckRestrictFlags(GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_i].refID].allowEquip)) if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "#";
+                if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text += GameManager.ROSTER[selected_character].bag[_i].name;
+                if (!GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "?" + GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_i].refID].itemType.ToString();
+            }
+            
         }
+    }
+
+    private bool CheckRestrictFlags(string f)
+    {
+        bool _result = false;
+        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Fighter && f.Contains("F")) _result = true;
+        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Thief && f.Contains("T")) _result = true;
+        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Mage && f.Contains("M")) _result = true;
+        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Priest && f.Contains("P")) _result = true;
+        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Bishop && f.Contains("B")) _result = true;
+        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Lord && f.Contains("L")) _result = true;
+        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Samurai && f.Contains("S")) _result = true;
+        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Ninja && f.Contains("N")) _result = true;
+
+        return _result;
     }
 
     public void CloseCharacterScreen()

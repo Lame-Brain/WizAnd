@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         LISTS = this.GetComponent<ListManager>();
         SaveLoadModule.LoadGame();
 
-        for (int _index = 0; _index < ROSTER.Count; _index++) Debug.Log(_index + ". " + ROSTER[_index].name);
+        //for (int _index = 0; _index < ROSTER.Count; _index++) Debug.Log(_index + ". " + ROSTER[_index].name);
 
         //DEBUG
         //PARTY.Add(ROSTER[0]);
