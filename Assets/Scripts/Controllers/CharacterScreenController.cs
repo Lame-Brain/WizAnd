@@ -70,14 +70,14 @@ public class CharacterScreenController : MonoBehaviour
     private bool CheckRestrictFlags(string f)
     {
         bool _result = false;
-        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Fighter && f.Contains("F")) _result = true;
-        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Thief && f.Contains("T")) _result = true;
-        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Mage && f.Contains("M")) _result = true;
-        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Priest && f.Contains("P")) _result = true;
-        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Bishop && f.Contains("B")) _result = true;
-        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Lord && f.Contains("L")) _result = true;
-        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Samurai && f.Contains("S")) _result = true;
-        if (GameManager.PARTY[selected_character].job == PlayerCharacter.Class.Ninja && f.Contains("N")) _result = true;
+        if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Fighter && f.Contains("F")) _result = true;
+        if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Thief && f.Contains("T")) _result = true;
+        if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Mage && f.Contains("M")) _result = true;
+        if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Priest && f.Contains("P")) _result = true;
+        if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Bishop && f.Contains("B")) _result = true;
+        if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Lord && f.Contains("L")) _result = true;
+        if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Samurai && f.Contains("S")) _result = true;
+        if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Ninja && f.Contains("N")) _result = true;
 
         return _result;
     }

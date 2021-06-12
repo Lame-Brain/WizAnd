@@ -7,7 +7,7 @@ public class CharacterRosterInspectScreenController : MonoBehaviour
     public GameObject scrollviewPanel, characterLine_pf, InspectMenuPanel, CharacterScreenPanel;    
 
     private GameObject _go;
-    private int _selected_Character;
+    public int _selected_Character;
 
     private void Start() 
     {

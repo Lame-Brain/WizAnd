@@ -5,9 +5,9 @@ using UnityEngine;
 public class BoltacShopController : MonoBehaviour
 {
     public GameObject WhoShopsPanel, ShopServicesPanel, BuyMenuPanel, BuyScrollPanel, BuyConfirmPanel;
-    public GameObject SellMenuPanel, SellScrollPanel, SellConfirmPanel, ID_MenuPanel, ID_ConfirmPanel, UncurseMenuPanel, UncurseScrollPanel;
+    public GameObject SellMenuPanel, SellScrollPanel, SellConfirmPanel, ID_MenuPanel, ID_ConfirmPanel, UncurseMenuPanel, UncurseConfirmPanel, PoolGoldPanel;
     public GameObject ShopLineItem_PF;
-    public TMPro.TextMeshProUGUI[] shopper, ID_PanelSlots;
+    public TMPro.TextMeshProUGUI[] shopper, ID_PanelSlots, Uncurse_PanelSlots;
     public TMPro.TextMeshProUGUI goldReport;
 
     private int _selected_Character, _selectedInventorySlot;
@@ -24,6 +24,8 @@ public class BoltacShopController : MonoBehaviour
         ID_MenuPanel.SetActive(false);
         ID_ConfirmPanel.SetActive(false);
         UncurseMenuPanel.SetActive(false);
+        UncurseConfirmPanel.SetActive(false);
+        PoolGoldPanel.SetActive(false);
         WhoShopsPanel.SetActive(true);
         for(int _i = 0; _i < 6; _i++) if (GameManager.PARTY.Count > _i) shopper[_i].text = GameManager.PARTY[_i].name + " LVL" + GameManager.PARTY[_i].level + " " + GameManager.PARTY[_i].alignment.ToString() + " " + GameManager.PARTY[_i].job.ToString();       
         if(GameManager.PARTY.Count == 0) gameObject.SetActive(false);
@@ -66,6 +68,8 @@ public class BoltacShopController : MonoBehaviour
         ID_MenuPanel.SetActive(false);
         ID_ConfirmPanel.SetActive(false);
         UncurseMenuPanel.SetActive(false);
+        UncurseConfirmPanel.SetActive(false);
+        PoolGoldPanel.SetActive(false);
         WhoShopsPanel.SetActive(false);
 
         //Clear existing children
@@ -112,6 +116,11 @@ public class BoltacShopController : MonoBehaviour
                 SellScrollPanel.transform.GetChild(_i).transform.Find("ItemName").GetComponent<TMPro.TextMeshProUGUI>().text += GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_i].refID].itemName;                
                 SellScrollPanel.transform.GetChild(_i).transform.Find("ItemPrice").GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_i].refID].price + "gp";
             }
+            if (GameManager.PARTY[_selected_Character].bag[_i] != null && GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_i].refID].cursed)
+            {                
+                SellScrollPanel.transform.GetChild(_i).transform.Find("ItemName").GetComponent<TMPro.TextMeshProUGUI>().text = "?" + GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_i].refID].itemType.ToString();
+                SellScrollPanel.transform.Find("ItemPrice").GetComponent<TMPro.TextMeshProUGUI>().text = ((int)GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_i].refID].price / 2) + "gp";
+            }
             if (GameManager.PARTY[_selected_Character].bag[_i] != null && !GameManager.PARTY[_selected_Character].bag[_i].identified)
             {
                 SellScrollPanel.transform.GetChild(_i).transform.Find("ItemName").GetComponent<TMPro.TextMeshProUGUI>().text = "?" + GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_i].refID].itemType.ToString();
@@ -130,6 +139,8 @@ public class BoltacShopController : MonoBehaviour
         ID_MenuPanel.SetActive(true);
         ID_ConfirmPanel.SetActive(false);
         UncurseMenuPanel.SetActive(false);
+        UncurseConfirmPanel.SetActive(false);
+        PoolGoldPanel.SetActive(false);
         WhoShopsPanel.SetActive(false);
 
         //populate the identify list
@@ -158,22 +169,42 @@ public class BoltacShopController : MonoBehaviour
         Debug.Log("clicked on " + GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].itemName + " in slot " + _selected);
 
         SellConfirmPanel.SetActive(true);
-        if (!GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].identified) SellConfirmPanel.transform.Find("Price Confirm").GetComponent<TMPro.TextMeshProUGUI>().text = "Sell ?" +
-                 GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].itemType.ToString() + " for 0 gp?";
-        if (GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].identified) SellConfirmPanel.transform.Find("Price Confirm").GetComponent<TMPro.TextMeshProUGUI>().text = "Sell " +
-                GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].itemName + " for " + 
-                GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].price + " gp?";
+        if (!GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].cursed) //if it is not a inactive cursed item
+        {
+            if (!GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].identified) SellConfirmPanel.transform.Find("Price Confirm").GetComponent<TMPro.TextMeshProUGUI>().text = "Sell ?" +
+                     GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].itemType.ToString() + " for 0 gp?";
+            if (GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].identified) SellConfirmPanel.transform.Find("Price Confirm").GetComponent<TMPro.TextMeshProUGUI>().text = "Sell " +
+                    GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].itemName + " for " +
+                    GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].price + " gp?";
+        }
+        if (GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].cursed) //if it has an inactive curse, it sells for less
+        {
+            SellConfirmPanel.transform.Find("Price Confirm").GetComponent<TMPro.TextMeshProUGUI>().text = "Sell " +
+                    GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].itemName + " for " +
+                    ((int)GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].price / 2) + " gp?";
+        }
     }
 
     public void ID_ItemClickedOn(int _selected)
     {
-        if(!GameManager.PARTY[_selected_Character].bag[_selected].identified)
+        if(GameManager.PARTY[_selected_Character].bag[_selected] != null && !GameManager.PARTY[_selected_Character].bag[_selected].identified)
         {
             _selectedInventorySlot = _selected;
             ID_ConfirmPanel.SetActive(true);
             ID_ConfirmPanel.transform.Find("Title").GetComponent<TMPro.TextMeshProUGUI>().text = "Identify " + 
                 GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].itemType.ToString() +
                 " for " + GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].price.ToString() + "gp?";
+        }
+    }
+
+    public void UNCURSE_ItemClickedOn(int _selected)
+    {
+        if (GameManager.PARTY[_selected_Character].bag[_selected] != null && GameManager.PARTY[_selected_Character].bag[_selected].curseActive)
+        {
+            _selectedInventorySlot = _selected;
+            UncurseConfirmPanel.SetActive(true);
+            ID_ConfirmPanel.transform.Find("Title").GetComponent<TMPro.TextMeshProUGUI>().text = "Uncurse this item for " 
+                + GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].price.ToString() + "gp?";
         }
     }
 
@@ -209,10 +240,14 @@ public class BoltacShopController : MonoBehaviour
 
     public void YES_SELL()
     {
-        if (!GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].cursed)
+        //!GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].cursed
+        if (!GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].curseActive)
         {
-            //If the item is identified, give the player gold.
-            if (GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].identified) GameManager.PARTY[_selected_Character].gold += GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].price;
+            //If the item is not cursed, give the player gold.
+            if (!GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].cursed) GameManager.PARTY[_selected_Character].gold += GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].price;
+
+            //If the item is (inactive) cursed, give the player less gold.
+            if (GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].cursed) GameManager.PARTY[_selected_Character].gold += (int) GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].price / 2;
 
             //add the item to shop stock
             if (GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].shopStock > -1) GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].shopStock++;
@@ -245,6 +280,23 @@ public class BoltacShopController : MonoBehaviour
         }
     }
 
+    public void YES_UNCURSE()
+    {
+        GameManager.PARTY[_selected_Character].gold -= GameManager.LISTS.itemList[GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot].refID].price;
+        GameManager.PARTY[_selected_Character].bag[_selectedInventorySlot] = null;
+    }
+
+    public void PoolGold()
+    {
+        int _totalGOld = 0;
+        for (int _i = 0; _i < GameManager.PARTY.Count; _i++)
+        {
+            _totalGOld += GameManager.PARTY[_i].gold;
+            GameManager.PARTY[_i].gold = 0;
+        }
+        GameManager.PARTY[_selected_Character].gold = _totalGOld;
+    }
+    
     public void UpdateSaveGame()
     {
         SaveLoadModule.SaveGame();

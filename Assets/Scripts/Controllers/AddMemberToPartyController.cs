@@ -8,6 +8,12 @@ public class AddMemberToPartyController : MonoBehaviour
     public List<PlayerCharacter> DisplayRoster = new List<PlayerCharacter>();
     public List<PlayerCharacter> DisplayParty = new List<PlayerCharacter>();
 
+    //This is for Tavern Inspect
+    public TMPro.TextMeshProUGUI[] TavernInspectPanelLineItem;
+    public GameObject CharacterSheet_PF, Canvas_ref;
+    private GameObject _characterSheet;
+
+
     private GameObject _go;
     private int _selected_Character;
     private string _focusWindow = "none";
@@ -99,4 +105,28 @@ public class AddMemberToPartyController : MonoBehaviour
         }
     }
 
+    //this is for the tavern inspect panel
+    public void InitializeTavernInspectPanel()
+    {
+        for(int _i = 0; _i < GameManager.PARTY.Count; _i++)
+        {
+            string _line_item = GameManager.PARTY[_i].name + " ";
+            if (GameManager.PARTY[_i].alignment == PlayerCharacter.Alignment.Good) _line_item += "G-";
+            if (GameManager.PARTY[_i].alignment == PlayerCharacter.Alignment.Neutral) _line_item += "N-";
+            if (GameManager.PARTY[_i].alignment == PlayerCharacter.Alignment.Evil) _line_item += "E-";
+            _line_item += GameManager.PARTY[_i].job.ToString().Substring(0, 3) + " LVL" + GameManager.PARTY[_i].level.ToString();
+            TavernInspectPanelLineItem[_i].text = _line_item;
+        }
+    }
+
+    public void Inspect_THIS_Character(int _selected)
+    {
+        int _selectedFromRoster = _selected;
+        for (int _i = 0; _i < GameManager.ROSTER.Count; _i++)
+            if (GameManager.PARTY[_selectedFromRoster] == GameManager.ROSTER[_i])
+                Debug.Log("FOUND YOU BRUTHER " + GameManager.PARTY[_selectedFromRoster].name + " = " + GameManager.ROSTER[_i].name);//_selectedFromRoster = _i;
+        _characterSheet = Instantiate(CharacterSheet_PF, Canvas_ref.transform);
+        _characterSheet.GetComponent<CharacterScreenController>().selected_character = _selectedFromRoster;
+        _characterSheet.GetComponent<CharacterScreenController>().UpdateCharacterScreen();
+    }
 }
