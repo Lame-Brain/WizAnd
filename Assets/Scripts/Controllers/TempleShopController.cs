@@ -50,6 +50,37 @@ public class TempleShopController : MonoBehaviour
         if (GameManager.PARTY[_selectedCharacter].gold < _cost[n]) //Have enough money, take a chance
         {
             TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "CHANT! MURMER! INVOKE!\n\n";
+            _randomRoll = Random.Range(1f, 100f);
+            if (_randomRoll <= (_tempToon.vitality * 3) + 40) //Succeed check
+            {
+                TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text += "Rejoice! " + _tempToon.name + " has been restored to life!";
+                GameManager.ROSTER[n].hp = 1; //restore health to 1
+                GameManager.ROSTER[n].ashes = false; GameManager.ROSTER[n].dead = false; //restore to life
+                GameManager.ROSTER[n].weeksOld += Random.Range(1, 53); //Age between 1 and 52 weeks
+                GameManager.PARTY[_selectedCharacter].gold -= _cost[n];
+                UpdateSave();
+            }
+            else //Fail Check
+            {
+                TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text += "Curses! " + _tempToon.name + " has been reduced to ashes!";
+                GameManager.ROSTER[n].ashes = true;
+                GameManager.ROSTER[n].weeksOld += Random.Range(1, 53); //Age between 1 and 52 weeks
+                GameManager.PARTY[_selectedCharacter].gold -= _cost[n];
+                UpdateSave();
+            }
+        }
+    }
+
+    public void ResFromAsh(int n)
+    {
+        TempleMessage_pnl.SetActive(true);
+        if (GameManager.PARTY[_selectedCharacter].gold < _cost[n]) //FAIL, not enough gp
+        {
+            TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "Alas child, you are unable to donate sufficent funds to honor AEOS for this boon. Return when you have more coin.";
+        }
+        if (GameManager.PARTY[_selectedCharacter].gold < _cost[n]) //Have enough money, take a chance
+        {
+            TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "CHANT! MURMER! INVOKE!\n\n";
             _randomRoll = Random.Range(1f, 100f);            
             if(_randomRoll <= (_tempToon.vitality * 3) + 40) //Succeed check
             {
@@ -64,9 +95,28 @@ public class TempleShopController : MonoBehaviour
             {
                 TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text += "Curses! " + _tempToon.name + " has been utterly destroyed!";
                 GameManager.ROSTER.Remove(_tempToon);
+                GameManager.ROSTER[n].weeksOld += Random.Range(1, 53); //Age between 1 and 52 weeks
                 GameManager.PARTY[_selectedCharacter].gold -= _cost[n];
                 UpdateSave();
             }
+        }
+    }
+
+    public void Restore(int n)
+    {
+        TempleMessage_pnl.SetActive(true);
+        if (GameManager.PARTY[_selectedCharacter].gold < _cost[n]) //FAIL, not enough gp
+        {
+            TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "Alas child, you are unable to donate sufficent funds to honor AEOS for this boon. Return when you have more coin.";
+        }
+        else
+        { 
+            TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "CHANT! MURMER! INVOKE!\n\n";
+            TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text += _tempToon.name + " has been restored!";
+            GameManager.ROSTER[n].plyze = false;
+            GameManager.ROSTER[n].stoned = false;
+            GameManager.PARTY[_selectedCharacter].gold -= _cost[n];
+            UpdateSave();
         }
     }
 
@@ -78,7 +128,7 @@ public class TempleShopController : MonoBehaviour
         _service.Add("Tithe"); _cost.Add((int)GameManager.PARTY[_selectedCharacter].gold / 10);        
 
         //build the lists
-        for (int _i = 0; _i < GameManager.ROSTER.Count; _i++) if (GameManager.ROSTER[_i].ashes) { _paitent.Add(_i); _service.Add("Resurrect"); _cost.Add(500 * GameManager.ROSTER[_i].level); }
+        for (int _i = 0; _i < GameManager.ROSTER.Count; _i++) if (GameManager.ROSTER[_i].ashes) { _paitent.Add(_i); _service.Add("Restore from Ash"); _cost.Add(500 * GameManager.ROSTER[_i].level); }
         for (int _i = 0; _i < GameManager.ROSTER.Count; _i++) if (GameManager.ROSTER[_i].dead && !GameManager.ROSTER[_i].ashes) { _paitent.Add(_i); _service.Add("Resurrect"); _cost.Add(250 * GameManager.ROSTER[_i].level); }
 
         for (int _i = 0; _i < GameManager.ROSTER.Count; _i++) if (GameManager.ROSTER[_i].stoned) { _paitent.Add(_i); _service.Add("Restore"); _cost.Add(200 * GameManager.ROSTER[_i].level); }
@@ -93,19 +143,15 @@ public class TempleShopController : MonoBehaviour
             _go.transform.Find("ItemName").GetComponent<TMPro.TextMeshProUGUI>().text = _service[_i] + " (" + GameManager.ROSTER[_paitent[_i]] + ")";
             _go.transform.Find("ItemPrice").GetComponent<TMPro.TextMeshProUGUI>().text = ((int)GameManager.PARTY[_selectedCharacter].gold / 10) + "gp";
         }
-
-    }
-
-    public void DrawServiceList()
-    {
-
     }
 
     public void ChooseServiceLine(int n)
     {
         _tempToon = GameManager.ROSTER[n];
         if (_service[n] == "Tithe") PayTithe();
+        if (_service[n] == "Restore from Ash") ResFromAsh(n);
         if (_service[n] == "Resurrect") Resurrect(n);
+        if (_service[n] == "Restore") Restore(n);
         services_pnl.SetActive(false);
         whoShops_pnl.SetActive(true);
     }
