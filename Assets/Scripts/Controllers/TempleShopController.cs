@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class TempleShopController : MonoBehaviour
 {
-    public GameObject whoShops_pnl, whoShopsContent_pnl, services_pnl, servicesContent_pnl, TempleMessage_pnl, shopLineItem_PF;
+    public GameObject whoShops_pnl, whoShopsContent_pnl, services_pnl, servicesContent_pnl, TempleMessage_pnl, TempleConfirm_pnl, shopLineItem_PF;
 
-    private int _selectedCharacter;
+    private int _selectedCharacter, _index;
     private float _randomRoll;
     private PlayerCharacter _tempToon;
     private List<GameObject> TempleServiceLineItem = new List<GameObject>();
@@ -36,7 +36,7 @@ public class TempleShopController : MonoBehaviour
     {
         GameManager.PARTY[_selectedCharacter].gold -= ((int)GameManager.PARTY[_selectedCharacter].gold / 10);
         TempleMessage_pnl.SetActive(true);
-        UpdateSave();
+        //UpdateSave();
         TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "Bless you child, for your donation! May AEOS' favor walk with you always.";
     }
 
@@ -148,6 +148,14 @@ public class TempleShopController : MonoBehaviour
     public void ChooseServiceLine(int n)
     {
         _tempToon = GameManager.ROSTER[n];
+        TempleConfirm_pnl.SetActive(true);
+        TempleConfirm_pnl.GetComponent<TMPro.TextMeshProUGUI>().text = "You wish to perform the service of " + _service[n] + " on " + GameManager.ROSTER[_paitent[n]] + " for " + _cost + "gp?";
+        _index = n;
+    }
+    
+    public void YES()
+    {
+        int n = _index;
         if (_service[n] == "Tithe") PayTithe();
         if (_service[n] == "Restore from Ash") ResFromAsh(n);
         if (_service[n] == "Resurrect") Resurrect(n);
