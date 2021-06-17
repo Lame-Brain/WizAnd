@@ -297,7 +297,7 @@ public class PlayerCharacter
                 if (job == Class.Ninja) _newMaxHP += _random.Next(1, 6) + _vitalityBonus;
                 if (job == Class.Bishop) _newMaxHP += _random.Next(1, 6) + _vitalityBonus;
             }
-            if(_newMaxHP < maxHP) _newMaxHP = (int)maxHP + 1; //clamp newMaxHp to always be at least 1 more than old maxHP
+            if(_newMaxHP <= maxHP) _newMaxHP = (int)maxHP + 1; //clamp newMaxHp to always be at least 1 more than old maxHP
             healthChange = _newMaxHP - (int)maxHP; //set variable for display on level up screen
             maxHP = _newMaxHP; //set new max hp
             hp += healthChange;

@@ -23,9 +23,6 @@ public class GameManager : MonoBehaviour
         GAME = this;
         LISTS = this.GetComponent<ListManager>();
         SaveLoadModule.LoadGame();
-        ROSTER[0].ep = 1001;
-        ROSTER[0].level = 1;
-        DebugLog("character 0 is " + ROSTER[0].weeksOld + " weeks old.");
 
         //for (int _index = 0; _index < ROSTER.Count; _index++) Debug.Log(_index + ". " + ROSTER[_index].name);
 
