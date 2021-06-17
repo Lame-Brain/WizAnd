@@ -36,7 +36,7 @@ public class TempleShopController : MonoBehaviour
     {
         GameManager.PARTY[_selectedCharacter].gold -= ((int)GameManager.PARTY[_selectedCharacter].gold / 10);
         TempleMessage_pnl.SetActive(true);
-        //UpdateSave();
+        UpdateSave();
         TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "Bless you child, for your donation! May AEOS' favor walk with you always.";
     }
 
@@ -140,7 +140,7 @@ public class TempleShopController : MonoBehaviour
         for(int _i = 0; _i < _paitent.Count; _i++)
         {
             _go = Instantiate(shopLineItem_PF, servicesContent_pnl.transform);
-            _go.transform.Find("ItemName").GetComponent<TMPro.TextMeshProUGUI>().text = _service[_i] + " (" + GameManager.ROSTER[_paitent[_i]] + ")";
+            _go.transform.Find("ItemName").GetComponent<TMPro.TextMeshProUGUI>().text = _service[_i] + " (" + GameManager.ROSTER[_paitent[_i]].name + ")";
             _go.transform.Find("ItemPrice").GetComponent<TMPro.TextMeshProUGUI>().text = ((int)GameManager.PARTY[_selectedCharacter].gold / 10) + "gp";
         }
     }
@@ -149,7 +149,7 @@ public class TempleShopController : MonoBehaviour
     {
         _tempToon = GameManager.ROSTER[n];
         TempleConfirm_pnl.SetActive(true);
-        TempleConfirm_pnl.GetComponent<TMPro.TextMeshProUGUI>().text = "You wish to perform the service of " + _service[n] + " on " + GameManager.ROSTER[_paitent[n]] + " for " + _cost + "gp?";
+        TempleConfirm_pnl.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "You wish to perform the service of " + _service[n] + " on " + GameManager.ROSTER[_paitent[n]].name + " for " + _cost[n] + "gp?";
         _index = n;
     }
     

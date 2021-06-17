@@ -80,6 +80,7 @@ public class PlayerCharacter
     public int agilityChange;
     public int luckChange;
     public int healthChange;
+    public int xpNeededForLevelUp;
 
 
     public void CalculateSpells()
@@ -179,17 +180,21 @@ public class PlayerCharacter
 
     public int StatChange(int s)
     {
-        System.Random _random = new System.Random();        
-        if (_random.Next(1, 101) < 75)
+        int _roll1 = GameManager.GAME.RandINT(1, 101);
+        int _roll2 = GameManager.GAME.RandINT(1, 131);
+        GameManager.GAME.DebugLog("random roll 1 = " + _roll1 + "   Target is 75");
+        GameManager.GAME.DebugLog("random roll 2 = " + _roll2 + "   Target is " + (int)weeksOld / 52);
+        if (_roll1 < 75)
         {
-            if (_random.Next(1, 101) >= (weeksOld * 52) / 130)  //chance to decrease stat
+            if (_roll2 < (weeksOld / 52))  //chance to decrease stat
             {
                 s--;
-                if (s == 17 && _random.Next(1, 6) < 5) s++; //if stat is 18 and decreases, there is a 5/6 chance that it stays at 18
+                if (s == 17 && GameManager.GAME.RandINT(1, 7) < 5) s++; //if stat is 18 and decreases, there is a 5/6 chance that it stays at 18
             }
             else //if the stat did not decrease, then it increases by 1;
             {
                 s++;
+                GameManager.GAME.DebugLog("STAT INCREASE");
             }
         }
 
@@ -202,7 +207,7 @@ public class PlayerCharacter
     {
         System.Random _random = new System.Random();
 
-        bool _leveledUp = false;
+        bool _leveledUp = false; xpNeededForLevelUp = 0;
 
         //Set E.P. Targets
         int _a = 0; int _b = 0; int _c = 0; int _d = 0; int _e = 0; int _f = 0; int _g = 0; int _h = 0; int _i = 0; int _j = 0; int _k = 0; int _l = 0; int _m = 0;
@@ -219,6 +224,7 @@ public class PlayerCharacter
         //determine if levelUp has occured.
         if(level < 13 && ep > _xpNNL[level]) _leveledUp = true;
         if (level > 12 && ep > (_xpNNL[12] + (_xpNNL[13] * (level - 12)))) _leveledUp = true;
+        if (!_leveledUp) xpNeededForLevelUp = _xpNNL[level] - ep;
 
         if (_leveledUp)
         {
@@ -240,6 +246,27 @@ public class PlayerCharacter
             agilityChange = _newAgility - agility;
             vitalityChange = _newVitality - vitality;
             luckChange = _newLuck - luck;
+
+/*//DEBUG LINE
+            GameManager.GAME.DebugLog("old strength " + strength);
+            GameManager.GAME.DebugLog("new strength " + _newStrength);
+            GameManager.GAME.DebugLog("Strength change " + strengthChange);
+            GameManager.GAME.DebugLog("old iq " + iq);
+            GameManager.GAME.DebugLog("new iq " + _newIQ);
+            GameManager.GAME.DebugLog("iq change " + iqChange);
+            GameManager.GAME.DebugLog("old piety " + piety);
+            GameManager.GAME.DebugLog("new piety " + _newPiety);
+            GameManager.GAME.DebugLog("piety change " + pietyChange);
+            GameManager.GAME.DebugLog("old agility " + agility);
+            GameManager.GAME.DebugLog("new agility " + _newAgility);
+            GameManager.GAME.DebugLog("agility change " + agilityChange);
+            GameManager.GAME.DebugLog("old vitality " + vitality);
+            GameManager.GAME.DebugLog("new vitality " + _newVitality);
+            GameManager.GAME.DebugLog("vitality change " + vitalityChange);
+            GameManager.GAME.DebugLog("old luck " + luck);
+            GameManager.GAME.DebugLog("new luck " + _newLuck);
+            GameManager.GAME.DebugLog("luck change " + luckChange); 
+*/
 
             //apply stat changes
             strength = _newStrength;
@@ -273,6 +300,8 @@ public class PlayerCharacter
             if(_newMaxHP < maxHP) _newMaxHP = (int)maxHP + 1; //clamp newMaxHp to always be at least 1 more than old maxHP
             healthChange = _newMaxHP - (int)maxHP; //set variable for display on level up screen
             maxHP = _newMaxHP; //set new max hp
+            hp += healthChange;
+            if (hp > maxHP) hp = maxHP;
 
             //calculate SpellSlots and Spells
             CalculateSpells();
