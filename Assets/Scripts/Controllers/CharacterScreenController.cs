@@ -7,6 +7,7 @@ public class CharacterScreenController : MonoBehaviour
     public TMPro.TextMeshProUGUI VitalStatsLine1, VitalStatsLine2, StatBlock, OtherValues, MageSlots, PriestSlots;
     public TMPro.TextMeshProUGUI[] BagSlots;
     public int selected_character;
+    public GameObject messagePanel, mageSpellPanel, mageSpellContent, PriestSpellPanel, priestSpellContent, lineItemText_PF;
 
     public void UpdateCharacterScreen()
     {
@@ -85,5 +86,53 @@ public class CharacterScreenController : MonoBehaviour
     public void CloseCharacterScreen()
     {
         Destroy(gameObject);
+    }
+
+    public void ReadMageSpells()
+    {
+        mageSpellPanel.SetActive(true);
+        //clear old children
+        if (mageSpellContent.transform.childCount > 0) foreach (Transform child in mageSpellContent.transform) Destroy(child.gameObject);
+        //instantiate spells
+        GameObject _go;
+        for (int _i = 0; _i < GameManager.ROSTER[selected_character].mageSpells.Count; _i++)
+        {
+            _go = Instantiate(lineItemText_PF, mageSpellContent.transform);
+            _go.GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[selected_character].mageSpells[_i];
+        }
+
+    }
+
+    public void ReadPriestSpells()
+    {
+        messagePanel.SetActive(true);
+        messagePanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "";
+        for (int _i = 0; _i < GameManager.ROSTER[selected_character].priestSpells.Count; _i++)
+            messagePanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text += GameManager.ROSTER[selected_character].priestSpells[_i] + "\n";
+    }
+
+    public void PoolGold()
+    {
+
+    }
+
+    public void TradeItem()
+    {
+
+    }
+
+    public void EquipItem()
+    {
+
+    }
+
+    public void DropItem()
+    {
+
+    }
+
+    public void IdentifyItem()
+    {
+
     }
 }

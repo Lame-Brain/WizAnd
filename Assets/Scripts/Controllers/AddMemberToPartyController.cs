@@ -121,12 +121,15 @@ public class AddMemberToPartyController : MonoBehaviour
 
     public void Inspect_THIS_Character(int _selected)
     {
-        int _selectedFromRoster = _selected;
-        for (int _i = 0; _i < GameManager.ROSTER.Count; _i++)
-            if (GameManager.PARTY[_selectedFromRoster] == GameManager.ROSTER[_i])
-                Debug.Log("FOUND YOU BRUTHER " + GameManager.PARTY[_selectedFromRoster].name + " = " + GameManager.ROSTER[_i].name);//_selectedFromRoster = _i;
-        _characterSheet = Instantiate(CharacterSheet_PF, Canvas_ref.transform);
-        _characterSheet.GetComponent<CharacterScreenController>().selected_character = _selectedFromRoster;
-        _characterSheet.GetComponent<CharacterScreenController>().UpdateCharacterScreen();
+        int _selectedFromRoster = 0;
+        if (_selected < GameManager.PARTY.Count)
+        {            
+            for (int _i = 0; _i < GameManager.ROSTER.Count; _i++)
+                if (GameManager.PARTY[_selected] == GameManager.ROSTER[_i])
+                    _selectedFromRoster = _i;
+            _characterSheet = Instantiate(CharacterSheet_PF, Canvas_ref.transform);
+            _characterSheet.GetComponent<CharacterScreenController>().selected_character = _selectedFromRoster;
+            _characterSheet.GetComponent<CharacterScreenController>().UpdateCharacterScreen();
+        }
     }
 }

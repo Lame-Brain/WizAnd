@@ -21,7 +21,7 @@ public class ListManager : MonoBehaviour
         spellList.Add(new Spell("Frost Bolt", "MADITO", Spell.Source.cold, Spell.Type.mage, Spell.Target.enemy, 2, "A small bolt of ice that does 5 - 12 damage", true, false));
         spellList.Add(new Spell("Mage Armor", "SOPIC", Spell.Source.none, Spell.Type.mage, Spell.Target.self, 2, "A shimmering light encases the caster, improving AC by 4", true, false));        
 
-        spellList.Add(new Spell("lesser Warding", "CORTU", Spell.Source.none, Spell.Type.mage, Spell.Target.party, 3, "A globe of swirling color protects against spells and breath attacks", true, false));
+        spellList.Add(new Spell("Lesser Warding", "CORTU", Spell.Source.none, Spell.Type.mage, Spell.Target.party, 3, "A globe of swirling color protects against spells and breath attacks", true, false));
         spellList.Add(new Spell("Spark Bolt", "MOLITO", Spell.Source.lightning, Spell.Type.mage, Spell.Target.enemy, 3, "A small bolt of lightning that does 5 - 12 damage", true, false));
         spellList.Add(new Spell("Heat Wave", "MAHALITO", Spell.Source.fire, Spell.Type.mage, Spell.Target.group, 3, "A blast of heat that does 4 - 24 damage to a group of foes", true, false));
         spellList.Add(new Spell("Cold Front", "MALADITO", Spell.Source.cold, Spell.Type.mage, Spell.Target.group, 3, "A blast of cold that does 4 - 24 damage to a group of foes", true, false));

@@ -1170,8 +1170,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1423853219}
-          m_MethodName: callback
+        - m_Target: {fileID: 1520980225}
+          m_MethodName: Inspect_THIS_Character
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2921,8 +2921,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1423853219}
-          m_MethodName: callback
+        - m_Target: {fileID: 1520980225}
+          m_MethodName: Inspect_THIS_Character
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4399,8 +4399,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1423853219}
-          m_MethodName: callback
+        - m_Target: {fileID: 1520980225}
+          m_MethodName: Inspect_THIS_Character
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5759,7 +5759,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 75, y: -75}
+  m_AnchoredPosition: {x: 50, y: -75}
   m_SizeDelta: {x: 75, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &338749281
@@ -5848,8 +5848,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6216,7 +6216,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -100, y: -200}
+  m_SizeDelta: {x: -50, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &368967362
 MonoBehaviour:
@@ -8110,8 +8110,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1423853219}
-          m_MethodName: callback
+        - m_Target: {fileID: 1520980225}
+          m_MethodName: Inspect_THIS_Character
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -25885,8 +25885,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1423853219}
-          m_MethodName: callback
+        - m_Target: {fileID: 1520980225}
+          m_MethodName: Inspect_THIS_Character
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -27423,7 +27423,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -75, y: 75}
+  m_AnchoredPosition: {x: -50, y: 75}
   m_SizeDelta: {x: 75, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1376318064
@@ -27523,8 +27523,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -28371,7 +28371,6 @@ GameObject:
   - component: {fileID: 1423853217}
   - component: {fileID: 1423853216}
   - component: {fileID: 1423853215}
-  - component: {fileID: 1423853219}
   m_Layer: 5
   m_Name: Content_Panel
   m_TagString: Untagged
@@ -28466,19 +28465,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1423853219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1423853214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83e551ffd18ebc44e87382c854fd78ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logicPanelHolder: {fileID: 1520980223}
 --- !u!1 &1424216928
 GameObject:
   m_ObjectHideFlags: 0
@@ -34493,8 +34479,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -38371,8 +38357,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1423853219}
-          m_MethodName: callback
+        - m_Target: {fileID: 1520980225}
+          m_MethodName: Inspect_THIS_Character
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -39432,6 +39418,7 @@ MonoBehaviour:
   WhoShopsPanel: {fileID: 694798699}
   ServicesPanel: {fileID: 743329587}
   MessagePanel: {fileID: 1767811024}
+  partyPanel: {fileID: 2113665276}
 --- !u!1 &2093700599
 GameObject:
   m_ObjectHideFlags: 0
