@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
         LISTS = this.GetComponent<ListManager>();
         SaveLoadModule.LoadGame();
 
+        ROSTER[0].bag[0] = new ItemInstance(LISTS.itemList[23]);
+        ROSTER[0].bag[0].identified = true;
+
+
         //for (int _index = 0; _index < ROSTER.Count; _index++) Debug.Log(_index + ". " + ROSTER[_index].name);
 
         //DEBUG
@@ -47,11 +51,13 @@ public class GameManager : MonoBehaviour
         //        List<string> list1 = new List<string>();
         //        List<string> list2 = new List<string>();
         //        list1.Add("Stuff 1"); list1.Add("Stuff A"); list1.Add("Stuff Alpha");
-        //list2.Add("Floof"); list2.Add("Fluff");
-        //list2 = list1;        
+        //        list2.Add("Floof"); list2.Add("Fluff");
+        //        list2 = list1;        
         //        for (int d = 0; d < list1.Count; d++) list2.Add(list1[d]);
         //        list2.RemoveAt(0);
         //        for (int d = 0; d < list1.Count; d++) Debug.Log("List 1: " + list1[d]);
+        //        for (int d = 0; d < list2.Count; d++) Debug.Log("List 2: " + list2[d]);
+        //        list1[0] = "CHAG";
         //        for (int d = 0; d < list2.Count; d++) Debug.Log("List 2: " + list2[d]);
         //        Debug.Log(list1[0] == list2[0]);
 

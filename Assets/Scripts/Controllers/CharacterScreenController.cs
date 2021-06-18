@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CharacterScreenController : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI VitalStatsLine1, VitalStatsLine2, StatBlock, OtherValues, MageSlots, PriestSlots;
     public TMPro.TextMeshProUGUI[] BagSlots;
     public int selected_character;
-    public GameObject messagePanel, mageSpellPanel, mageSpellContent, PriestSpellPanel, priestSpellContent, lineItemText_PF;
+    public GameObject messagePanel, mageSpellPanel, mageSpellContent, PriestSpellPanel, priestSpellContent, lineItemText_PF, itemInteractPanel, spellInteractPanel;
+
+    private int _selected_Spell_Index, _selected_Item_Index;
 
     public void UpdateCharacterScreen()
     {
@@ -95,25 +98,55 @@ public class CharacterScreenController : MonoBehaviour
         if (mageSpellContent.transform.childCount > 0) foreach (Transform child in mageSpellContent.transform) Destroy(child.gameObject);
         //instantiate spells
         GameObject _go;
-        for (int _i = 0; _i < GameManager.ROSTER[selected_character].mageSpells.Count; _i++)
+        for (int _i = 0; _i < GameManager.LISTS.spellList.Count; _i++)
         {
-            _go = Instantiate(lineItemText_PF, mageSpellContent.transform);
-            _go.GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[selected_character].mageSpells[_i];
+            if (GameManager.LISTS.spellList[_i].type == Spell.Type.mage)
+            {
+                _go = Instantiate(lineItemText_PF, mageSpellContent.transform);
+                _go.GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.LISTS.spellList[_i].spellTitle;
+                _go.GetComponent<Line_Item_Click_Controller>().myValue = _i;
+                if (!GameManager.ROSTER[selected_character].mageSpells.Contains(GameManager.LISTS.spellList[_i].spellTitle)) _go.SetActive(false);
+            }
         }
-
     }
 
     public void ReadPriestSpells()
     {
-        messagePanel.SetActive(true);
-        messagePanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "";
-        for (int _i = 0; _i < GameManager.ROSTER[selected_character].priestSpells.Count; _i++)
-            messagePanel.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text += GameManager.ROSTER[selected_character].priestSpells[_i] + "\n";
+        PriestSpellPanel.SetActive(true);
+        //clear old children
+        if (priestSpellContent.transform.childCount > 0) foreach (Transform child in priestSpellContent.transform) Destroy(child.gameObject);
+        //instantiate spells
+        GameObject _go;
+        for (int _i = 0; _i < GameManager.LISTS.spellList.Count; _i++)
+        {
+            if (GameManager.LISTS.spellList[_i].type == Spell.Type.priest)
+            {
+                _go = Instantiate(lineItemText_PF, priestSpellContent.transform);
+                _go.GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.LISTS.spellList[_i].spellTitle;
+                _go.GetComponent<Line_Item_Click_Controller>().myValue = _i;
+                if (!GameManager.ROSTER[selected_character].priestSpells.Contains(GameManager.LISTS.spellList[_i].spellTitle)) _go.SetActive(false);
+            }
+        }
     }
 
-    public void PoolGold()
+    public void SpellClickedOn(int n)
     {
+        _selected_Spell_Index = n;
+        spellInteractPanel.SetActive(true);
+        spellInteractPanel.transform.Find("Spell Info Panel").GetComponent<TMPro.TextMeshProUGUI>().text = "Spell: " + GameManager.LISTS.spellList[n].spellTitle 
+            + "\nVerbal Component: " + GameManager.LISTS.spellList[n].spellWord + "\n\n" + GameManager.LISTS.spellList[n].spellDescription;
+    }
 
+    public void ItemClickedOn(int n)
+    {
+        if(GameManager.ROSTER[selected_character].bag[n] != null)
+        {
+            _selected_Item_Index = n;
+            itemInteractPanel.SetActive(true);
+            itemInteractPanel.transform.Find("Name Text").GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[selected_character].bag[n].name;
+            if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Bishop) itemInteractPanel.transform.Find("InspectButton").gameObject.SetActive(true);
+            if (GameManager.ROSTER[selected_character].job != PlayerCharacter.Class.Bishop) itemInteractPanel.transform.Find("InspectButton").gameObject.SetActive(false);
+        }
     }
 
     public void TradeItem()

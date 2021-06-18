@@ -37,12 +37,12 @@ public class ListManager : MonoBehaviour
         spellList.Add(new Spell("Toxic Cloud", "MAKANTINO", Spell.Source.arcane, Spell.Type.mage, Spell.Target.group, 5, "A cloud of toxin kills a group of foes below level 8", true, false));
         spellList.Add(new Spell("Terror", "MAMORLIS", Spell.Source.arcane, Spell.Type.mage, Spell.Target.foes, 5, "Inflicts FEAR on all who dare oppose the caster", true, false));
 
-        spellList.Add(new Spell("Pact with a Demon", "HAMAN", Spell.Source.arcane, Spell.Type.mage, Spell.Target.self, 6, "In exchange for a portion of the caster's power, something good happens", true, true));
+        spellList.Add(new Spell("Demon Pact", "HAMAN", Spell.Source.arcane, Spell.Type.mage, Spell.Target.self, 6, "In exchange for a portion of the caster's power, something good happens", true, true));
         spellList.Add(new Spell("Suffocation", "LAKANTINO", Spell.Source.arcane, Spell.Type.mage, Spell.Target.group, 6, "The caster removes air from area of a group of foes, striking them dead", true, false));
         spellList.Add(new Spell("Greater Warding", "MASOPIC", Spell.Source.arcane, Spell.Type.mage, Spell.Target.party, 6, "A globe of swirling color improves the caster's party's AC by 4", true, false));
         spellList.Add(new Spell("Rebuke", "ZILWAN", Spell.Source.arcane, Spell.Type.mage, Spell.Target.enemy, 6, "A bolt of Necrotic Energy destroys an undead being", true, false));
         
-        spellList.Add(new Spell("Deal with the Devil", "MAHAMAN", Spell.Source.arcane, Spell.Type.mage, Spell.Target.self, 7, "In exchange for a portion of the caster's soul, a wish is granted", true, true));
+        spellList.Add(new Spell("Devil Pact", "MAHAMAN", Spell.Source.arcane, Spell.Type.mage, Spell.Target.self, 7, "In exchange for a portion of the caster's soul, a wish is granted", true, true));
         spellList.Add(new Spell("Teleport", "MALOR", Spell.Source.arcane, Spell.Type.mage, Spell.Target.party, 7, "Teleports party to a new location", true, true));
         spellList.Add(new Spell("Nuke", "TILTOWAIT", Spell.Source.arcane, Spell.Type.mage, Spell.Target.foes, 7, "Intense Power deals 10 - 100 damage to all Foes", true, false));
 
