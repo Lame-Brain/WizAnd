@@ -64,8 +64,9 @@ public class CharacterScreenController : MonoBehaviour
             {
                 if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "";
                 if(!CheckRestrictFlags(GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_i].refID].allowEquip)) if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "#";
+                if (GameManager.ROSTER[selected_character].bag[_i].equipped) BagSlots[_i].text = "*";
                 if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text += GameManager.ROSTER[selected_character].bag[_i].name;
-                if (!GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "?" + GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_i].refID].itemType.ToString();
+                if (!GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text += "?" + GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_i].refID].itemType.ToString();
             }
             
         }
@@ -194,12 +195,40 @@ public class CharacterScreenController : MonoBehaviour
 
     public void EquipItem()
     {
+        //Determine if the item is already equipped or not
+        if (GameManager.ROSTER[selected_character].bag[_selected_Item_Index].equipped)
+        {
+            //based on item type, clear the equipped reference
+            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Helm) GameManager.ROSTER[selected_character].head = null;
+            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Shield) GameManager.ROSTER[selected_character].shield = null;            
+            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Armor) GameManager.ROSTER[selected_character].body = null;
+            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Gloves ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Ring ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Amulet) GameManager.ROSTER[selected_character].jewelry = null;
+            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Sword ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Axe ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Flail ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Mace ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Dagger ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Staff) GameManager.ROSTER[selected_character].weapon = null;
 
+            //mark the ItemInstance as unequipped
+            GameManager.ROSTER[selected_character].bag[_selected_Item_Index].equipped = false;
+        }
+        else //the item is not already equipped
+        {
+
+        }
     }
 
     public void DropItem()
     {
-
+        GameManager.ROSTER[selected_character].bag[_selected_Item_Index] = null;
+        itemInteractPanel.SetActive(false);
+        UpdateCharacterScreen();
+        SaveLoadModule.SaveGame();
+        messagePanel.SetActive(true);
+        messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Item dropped.";
     }
 
     public void IdentifyItem()

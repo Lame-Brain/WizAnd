@@ -8,6 +8,7 @@ public class ItemInstance
     public string name;
     public bool identified;
     public bool curseActive;
+    public bool equipped;
 
     public ItemInstance(Item _i)
     {
@@ -15,6 +16,7 @@ public class ItemInstance
         name = _i.itemName;
         identified = false;
         curseActive = false;
+        equipped = false;
     }
 
     public ItemInstance(ItemInstance _i)
@@ -23,5 +25,6 @@ public class ItemInstance
         name = _i.name;
         identified = _i.identified;
         curseActive = _i.curseActive;
+        equipped = _i.equipped;
     }
 }

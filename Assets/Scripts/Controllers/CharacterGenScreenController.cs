@@ -331,7 +331,7 @@ public class CharacterGenScreenController : MonoBehaviour
             NewToon.body = null;
             NewToon.shield = null;
             NewToon.weapon = null;
-            NewToon.hands = null;
+            NewToon.jewelry = null;
             NewToon.bag = new ItemInstance[10];
             for (int _i = 0; _i < NewToon.bag.Length; _i++) NewToon.bag[_i] = null;
 

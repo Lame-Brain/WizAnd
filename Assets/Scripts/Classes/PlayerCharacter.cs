@@ -55,7 +55,7 @@ public class PlayerCharacter
     public ItemInstance body;
     public ItemInstance shield;
     public ItemInstance weapon;
-    public ItemInstance hands;
+    public ItemInstance jewelry;
     public ItemInstance[] bag = new ItemInstance[10];
 
     //spells
