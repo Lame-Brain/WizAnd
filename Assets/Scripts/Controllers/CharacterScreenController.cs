@@ -8,7 +8,7 @@ public class CharacterScreenController : MonoBehaviour
     public TMPro.TextMeshProUGUI VitalStatsLine1, VitalStatsLine2, StatBlock, OtherValues, MageSlots, PriestSlots;
     public TMPro.TextMeshProUGUI[] BagSlots;
     public int selected_character;
-    public GameObject messagePanel, mageSpellPanel, mageSpellContent, PriestSpellPanel, priestSpellContent, lineItemText_PF, itemInteractPanel, spellInteractPanel;
+    public GameObject messagePanel, mageSpellPanel, mageSpellContent, PriestSpellPanel, priestSpellContent, lineItemText_PF, itemInteractPanel, spellInteractPanel, partyTargetPanel;
 
     private int _selected_Spell_Index, _selected_Item_Index;
 
@@ -151,7 +151,45 @@ public class CharacterScreenController : MonoBehaviour
 
     public void TradeItem()
     {
+        if (!GameManager.PARTY.Contains(GameManager.ROSTER[selected_character]) || GameManager.PARTY.Count == 1)
+        {
+            messagePanel.SetActive(true);
+            messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "You may not trade items unless you are in a party with other characters.";
+            itemInteractPanel.SetActive(false);
+        }
+        else
+        {
+            partyTargetPanel.SetActive(true);
+            for(int _i = 0; _i < partyTargetPanel.transform.Find("Panel").childCount; _i++) partyTargetPanel.transform.Find("Panel").GetChild(_i).gameObject.SetActive(false);
+            for (int _i = 0; _i < GameManager.PARTY.Count; _i++)
+            {
+                partyTargetPanel.transform.Find("Panel").GetChild(_i).gameObject.SetActive(true);
+                partyTargetPanel.transform.Find("Panel").GetChild(_i).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[_i].name + " the " + GameManager.PARTY[_i].job.ToString();
+                if (GameManager.PARTY[_i] == GameManager.ROSTER[selected_character]) partyTargetPanel.transform.Find("Panel").GetChild(_i).gameObject.SetActive(false);
+            }
+        }
 
+    }
+
+    public void TradeWithThisTarget(int n)
+    {
+        partyTargetPanel.SetActive(false);
+        itemInteractPanel.SetActive(false);
+        messagePanel.SetActive(true);
+        bool _trade = false; int _selectSlot = -1;
+        for(int _i = 0; _i < GameManager.PARTY[n].bag.Length; _i++) if(!_trade && GameManager.PARTY[n].bag[_i] == null) { _trade = true; _selectSlot = _i; }
+        if (!_trade)
+        {
+            messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Unable to trade item to this character.";
+        }
+        else
+        {
+            messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[selected_character].bag[_selected_Item_Index].name + " traded to " + GameManager.PARTY[n].name;
+            GameManager.PARTY[n].bag[_selectSlot] = new ItemInstance(GameManager.ROSTER[selected_character].bag[_selected_Item_Index]);
+            GameManager.ROSTER[selected_character].bag[_selected_Item_Index] = null;
+            UpdateCharacterScreen();
+            SaveLoadModule.SaveGame();
+        }
     }
 
     public void EquipItem()

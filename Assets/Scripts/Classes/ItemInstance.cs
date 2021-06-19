@@ -16,4 +16,12 @@ public class ItemInstance
         identified = false;
         curseActive = false;
     }
+
+    public ItemInstance(ItemInstance _i)
+    {
+        refID = _i.refID;
+        name = _i.name;
+        identified = _i.identified;
+        curseActive = _i.curseActive;
+    }
 }
