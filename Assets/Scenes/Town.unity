@@ -39748,7 +39748,7 @@ GameObject:
   - component: {fileID: 2113665281}
   m_Layer: 5
   m_Name: PartyPanel
-  m_TagString: Untagged
+  m_TagString: PartyPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

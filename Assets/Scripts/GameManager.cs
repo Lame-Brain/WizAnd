@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager GAME;
-    public static ListManager LISTS;
+    public static ListManager LISTS;    
 
     public static List<PlayerCharacter> ROSTER = new List<PlayerCharacter>();
     public static List<PlayerCharacter> PARTY = new List<PlayerCharacter>();
@@ -22,11 +22,24 @@ public class GameManager : MonoBehaviour
     {
         GAME = this;
         LISTS = this.GetComponent<ListManager>();
+        
         SaveLoadModule.LoadGame();
 
+        
+        for (int _i = 0; _i < 10; _i++) ROSTER[0].bag[_i] = new ItemInstance(LISTS.itemList[Random.Range(1, LISTS.itemList.Count)]);
         ROSTER[0].bag[0] = new ItemInstance(LISTS.itemList[23]);
         ROSTER[0].bag[0].identified = true;
+        ROSTER[0].bag[4] = new ItemInstance(LISTS.itemList[24]);
+        ROSTER[0].bag[4].identified = true;
+        ROSTER[0].bag[8] = new ItemInstance(LISTS.itemList[92]);
+        ROSTER[0].bag[9] = new ItemInstance(LISTS.itemList[93]);
 
+        Debug.Log (Item.Alignment.Good.ToString() == PlayerCharacter.Alignment.Good.ToString());
+        
+        //Debug.Log(LISTS.itemList[92].itemType + " " + ROSTER[0].bag[8].refID);
+        //Debug.Log(LISTS.itemList[93].itemType + " " + ROSTER[0].bag[9].refID);
+        
+        //for (int _i = 0; _i < LISTS.itemList.Count; _i++) DebugLog(_i + ". " + LISTS.itemList[_i].ID + " " + LISTS.itemList[_i].itemType.ToString() + " " + LISTS.itemList[_i].itemName);
 
         //for (int _index = 0; _index < ROSTER.Count; _index++) Debug.Log(_index + ". " + ROSTER[_index].name);
 
@@ -83,5 +96,16 @@ public class GameManager : MonoBehaviour
     public int RandINT(int min, int max)
     {
         return Random.Range(min, max);
+    }
+
+    public void UpdatePartyPanel()
+    {
+        GameObject _go = GameObject.FindGameObjectWithTag("PartyPanel");
+        if (_go != null)
+        {
+            _go.GetComponent<PartyPanelController>().UpdatePartyPanel();
+            Debug.Log("Updating Party Panel");
+        }
+        if(_go == null) Debug.Log("Unable to update Party Panel");
     }
 }

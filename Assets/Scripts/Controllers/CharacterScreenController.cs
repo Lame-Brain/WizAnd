@@ -38,7 +38,8 @@ public class CharacterScreenController : MonoBehaviour
         OtherValues.text = "GP " + GameManager.ROSTER[selected_character].gold + "\n" +
                            "XP " + GameManager.ROSTER[selected_character].ep + "\n" + "\n" +
                            "HP " + GameManager.ROSTER[selected_character].hp +
-                             "_" + GameManager.ROSTER[selected_character].maxHP + "\n" + "\n" +
+                            "_" + GameManager.ROSTER[selected_character].maxHP + "\n" +
+                            "AC " + GameManager.ROSTER[selected_character].ac + "\n" +
                            "Status " + _status;
         MageSlots.text = "Mage: " +
                          GameManager.ROSTER[selected_character].mageSlots[0] + " | " +
@@ -59,10 +60,11 @@ public class CharacterScreenController : MonoBehaviour
                         GameManager.ROSTER[selected_character].priestSlots[6];
         for(int _i = 0; _i < GameManager.ROSTER[selected_character].bag.Length; _i++)
         {
-            if (GameManager.ROSTER[selected_character].bag[_i] == null) BagSlots[_i].text = "";
+            //if (GameManager.ROSTER[selected_character].bag[_i] == null) BagSlots[_i].text = "";
+            BagSlots[_i].text = "";
             if (GameManager.ROSTER[selected_character].bag[_i] != null)
             {
-                if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "";
+                //if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "";
                 if(!CheckRestrictFlags(GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_i].refID].allowEquip)) if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "#";
                 if (GameManager.ROSTER[selected_character].bag[_i].equipped) BagSlots[_i].text = "*";
                 if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text += GameManager.ROSTER[selected_character].bag[_i].name;
@@ -144,7 +146,8 @@ public class CharacterScreenController : MonoBehaviour
         {
             _selected_Item_Index = n;
             itemInteractPanel.SetActive(true);
-            itemInteractPanel.transform.Find("Name Text").GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[selected_character].bag[n].name;
+            if(GameManager.ROSTER[selected_character].bag[n].identified) itemInteractPanel.transform.Find("Name Text").GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[selected_character].bag[n].name;
+            if (!GameManager.ROSTER[selected_character].bag[n].identified) itemInteractPanel.transform.Find("Name Text").GetComponent<TMPro.TextMeshProUGUI>().text = "?" + GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[n].refID].itemType.ToString(); 
             if (GameManager.ROSTER[selected_character].job == PlayerCharacter.Class.Bishop) itemInteractPanel.transform.Find("InspectButton").gameObject.SetActive(true);
             if (GameManager.ROSTER[selected_character].job != PlayerCharacter.Class.Bishop) itemInteractPanel.transform.Find("InspectButton").gameObject.SetActive(false);
         }
@@ -179,6 +182,7 @@ public class CharacterScreenController : MonoBehaviour
         messagePanel.SetActive(true);
         bool _trade = false; int _selectSlot = -1;
         for(int _i = 0; _i < GameManager.PARTY[n].bag.Length; _i++) if(!_trade && GameManager.PARTY[n].bag[_i] == null) { _trade = true; _selectSlot = _i; }
+        if (GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _trade = false;
         if (!_trade)
         {
             messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Unable to trade item to this character.";
@@ -187,6 +191,7 @@ public class CharacterScreenController : MonoBehaviour
         {
             messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[selected_character].bag[_selected_Item_Index].name + " traded to " + GameManager.PARTY[n].name;
             GameManager.PARTY[n].bag[_selectSlot] = new ItemInstance(GameManager.ROSTER[selected_character].bag[_selected_Item_Index]);
+            GameManager.ROSTER[selected_character].bag[_selected_Item_Index].equipped = false;
             GameManager.ROSTER[selected_character].bag[_selected_Item_Index] = null;
             UpdateCharacterScreen();
             SaveLoadModule.SaveGame();
@@ -198,37 +203,142 @@ public class CharacterScreenController : MonoBehaviour
         //Determine if the item is already equipped or not
         if (GameManager.ROSTER[selected_character].bag[_selected_Item_Index].equipped)
         {
-            //based on item type, clear the equipped reference
-            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Helm) GameManager.ROSTER[selected_character].head = null;
-            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Shield) GameManager.ROSTER[selected_character].shield = null;            
-            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Armor) GameManager.ROSTER[selected_character].body = null;
-            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Gloves ||
-                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Ring ||
-                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Amulet) GameManager.ROSTER[selected_character].jewelry = null;
-            if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Sword ||
-                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Axe ||
-                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Flail ||
-                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Mace ||
-                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Dagger ||
-                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Staff) GameManager.ROSTER[selected_character].weapon = null;
+            //first, check for active curse
+            if (GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive)
+            {
+                //based on item type, clear the equipped reference
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Helm) GameManager.ROSTER[selected_character].head = null;
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Shield) GameManager.ROSTER[selected_character].shield = null;
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Armor) GameManager.ROSTER[selected_character].body = null;
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Gloves ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Ring ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Amulet) GameManager.ROSTER[selected_character].jewelry = null;
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Sword ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Axe ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Flail ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Mace ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Dagger ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Staff) GameManager.ROSTER[selected_character].weapon = null;
 
-            //mark the ItemInstance as unequipped
-            GameManager.ROSTER[selected_character].bag[_selected_Item_Index].equipped = false;
+                //mark the ItemInstance as unequipped
+                GameManager.ROSTER[selected_character].bag[_selected_Item_Index].equipped = false;
+
+                //report result
+                itemInteractPanel.SetActive(false);
+                UpdateCharacterScreen();
+                messagePanel.SetActive(true);
+                messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Item Unequipped.";
+            }
+            else //item is cursed, cannot unequip.
+            {
+                itemInteractPanel.SetActive(false);
+                UpdateCharacterScreen();
+                messagePanel.SetActive(true);
+                messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Item is cursed, cannot unequip.";
+            }
         }
         else //the item is not already equipped
         {
+            //Check for restrictions  Misc, Key, Rod, Scroll, Potion, Figurine
+            if (CheckRestrictFlags(GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].allowEquip) ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Misc ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Key ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Rod ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Scroll ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Potion ||
+                GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Figurine)
+            {
+                //based on item type, equip the item reference
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Helm)
+                {
+                    if (GameManager.ROSTER[selected_character].head != null) GameManager.ROSTER[selected_character].head.equipped = false;
+                    GameManager.ROSTER[selected_character].head = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
+                }
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Shield)
+                {
+                    if (GameManager.ROSTER[selected_character].shield != null) GameManager.ROSTER[selected_character].shield.equipped = false;
+                    GameManager.ROSTER[selected_character].shield = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
+                }
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Armor) 
+                {
+                    if (GameManager.ROSTER[selected_character].body != null) GameManager.ROSTER[selected_character].body.equipped = false;
+                    GameManager.ROSTER[selected_character].body = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
+                }
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Gloves ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Ring)
+                {
+                    if (GameManager.ROSTER[selected_character].jewelry != null) GameManager.ROSTER[selected_character].jewelry.equipped = false;
+                    GameManager.ROSTER[selected_character].jewelry = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
+                }
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Sword ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Axe ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Flail ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Mace ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Dagger ||
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].itemType == Item.Type.Staff)
+                {
+                    if (GameManager.ROSTER[selected_character].weapon != null) GameManager.ROSTER[selected_character].weapon.equipped = false;
+                    GameManager.ROSTER[selected_character].weapon = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
+                }
+                //mark the ItemInstance as equipped
+                GameManager.ROSTER[selected_character].bag[_selected_Item_Index].equipped = true;
 
+                //CURSES!
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive = true;
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment != Item.Alignment.Any &&
+                    GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment.ToString() !=
+                    GameManager.ROSTER[selected_character].alignment.ToString()) GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive = true;
+
+
+                //recalculate Armor Class
+                int _tAc = 0;
+                if (GameManager.ROSTER[selected_character].head != null && !GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc += GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].head.refID].acBonus;
+                if (GameManager.ROSTER[selected_character].head != null && GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc -= GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].head.refID].acBonus;
+                if (GameManager.ROSTER[selected_character].body != null && !GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc += GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].body.refID].acBonus;
+                if (GameManager.ROSTER[selected_character].body != null && !GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc -= GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].body.refID].acBonus;
+                if (GameManager.ROSTER[selected_character].shield != null && !GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc += GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].shield.refID].acBonus;
+                if (GameManager.ROSTER[selected_character].shield != null && GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc -= GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].shield.refID].acBonus;
+                if (GameManager.ROSTER[selected_character].weapon != null && !GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc += GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].weapon.refID].acBonus;
+                if (GameManager.ROSTER[selected_character].weapon != null && GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc -= GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].weapon.refID].acBonus;
+                if (GameManager.ROSTER[selected_character].jewelry != null && !GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc += GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].jewelry.refID].acBonus;
+                if (GameManager.ROSTER[selected_character].jewelry != null && GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _tAc -= GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].jewelry.refID].acBonus;
+                GameManager.ROSTER[selected_character].ac = 10 - _tAc;
+                GameManager.GAME.UpdatePartyPanel();
+
+                //report result
+                itemInteractPanel.SetActive(false);
+                UpdateCharacterScreen();
+                messagePanel.SetActive(true);
+                messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Item Equipped.";
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text += "The character is cursed!";
+            }
+            else //you are not allowed to equip this (restriction fail)
+            {
+                itemInteractPanel.SetActive(false);
+                UpdateCharacterScreen();
+                messagePanel.SetActive(true);
+                messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Unable to equip this item to this character.";                
+            }
         }
     }
 
     public void DropItem()
     {
-        GameManager.ROSTER[selected_character].bag[_selected_Item_Index] = null;
-        itemInteractPanel.SetActive(false);
-        UpdateCharacterScreen();
-        SaveLoadModule.SaveGame();
-        messagePanel.SetActive(true);
-        messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Item dropped.";
+        if (!GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive)
+        {
+            GameManager.ROSTER[selected_character].bag[_selected_Item_Index] = null;
+            itemInteractPanel.SetActive(false);
+            UpdateCharacterScreen();
+            SaveLoadModule.SaveGame();
+            messagePanel.SetActive(true);
+            messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Item dropped.";
+        }
+        else
+        {
+            itemInteractPanel.SetActive(false);
+            messagePanel.SetActive(true);
+            messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "Cannot drop cursed item.";
+        }
     }
 
     public void IdentifyItem()
