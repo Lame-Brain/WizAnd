@@ -34,7 +34,7 @@ public class CharacterRosterInspectScreenController : MonoBehaviour
             for (int _i = 0; _i < GameManager.PARTY.Count; _i++)
             {
                 _go = Instantiate(characterLine_pf, scrollviewPanel.transform);
-                _go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[_i].name + " LVL" + GameManager.PARTY[_i].level + " " + GameManager.PARTY[_i].alignment.ToString() + " " + GameManager.PARTY[_i].job.ToString();
+                _go.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[GameManager.PARTY[_i]].name + " LVL" + GameManager.ROSTER[GameManager.PARTY[_i]].level + " " + GameManager.ROSTER[GameManager.PARTY[_i]].alignment.ToString() + " " + GameManager.ROSTER[GameManager.PARTY[_i]].job.ToString();
             }
         }
     }

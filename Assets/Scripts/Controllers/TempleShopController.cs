@@ -24,17 +24,17 @@ public class TempleShopController : MonoBehaviour
         whoShopsContent_pnl.transform.GetChild(4).GetComponent<TMPro.TextMeshProUGUI>().text = "";
         whoShopsContent_pnl.transform.GetChild(5).GetComponent<TMPro.TextMeshProUGUI>().text = "";
 
-        if (GameManager.PARTY.Count > 0) whoShopsContent_pnl.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[0].name + " (" + GameManager.PARTY[0].alignment.ToString().Substring(0, 1) + "-" + GameManager.PARTY[0].job.ToString().Substring(0, 3) + ") has " + GameManager.PARTY[0].gold + "gp";
-        if (GameManager.PARTY.Count > 1) whoShopsContent_pnl.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[1].name + " (" + GameManager.PARTY[1].alignment.ToString().Substring(0, 1) + "-" + GameManager.PARTY[1].job.ToString().Substring(0, 3) + ") has " + GameManager.PARTY[1].gold + "gp";
-        if (GameManager.PARTY.Count > 2) whoShopsContent_pnl.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[2].name + " (" + GameManager.PARTY[2].alignment.ToString().Substring(0, 1) + "-" + GameManager.PARTY[2].job.ToString().Substring(0, 3) + ") has " + GameManager.PARTY[2].gold + "gp";
-        if (GameManager.PARTY.Count > 3) whoShopsContent_pnl.transform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[3].name + " (" + GameManager.PARTY[3].alignment.ToString().Substring(0, 1) + "-" + GameManager.PARTY[3].job.ToString().Substring(0, 3) + ") has " + GameManager.PARTY[3].gold + "gp";
-        if (GameManager.PARTY.Count > 4) whoShopsContent_pnl.transform.GetChild(4).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[4].name + " (" + GameManager.PARTY[4].alignment.ToString().Substring(0, 1) + "-" + GameManager.PARTY[4].job.ToString().Substring(0, 3) + ") has " + GameManager.PARTY[4].gold + "gp";
-        if (GameManager.PARTY.Count > 5) whoShopsContent_pnl.transform.GetChild(5).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[5].name + " (" + GameManager.PARTY[5].alignment.ToString().Substring(0, 1) + "-" + GameManager.PARTY[5].job.ToString().Substring(0, 3) + ") has " + GameManager.PARTY[5].gold + "gp";
+        if (GameManager.PARTY.Count > 0) whoShopsContent_pnl.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[GameManager.PARTY[0]].name + " (" + GameManager.ROSTER[GameManager.PARTY[0]].alignment.ToString().Substring(0, 1) + "-" + GameManager.ROSTER[GameManager.PARTY[0]].job.ToString().Substring(0, 3) + ") has " + GameManager.ROSTER[GameManager.PARTY[0]].gold + "gp";
+        if (GameManager.PARTY.Count > 1) whoShopsContent_pnl.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[GameManager.PARTY[1]].name + " (" + GameManager.ROSTER[GameManager.PARTY[1]].alignment.ToString().Substring(0, 1) + "-" + GameManager.ROSTER[GameManager.PARTY[1]].job.ToString().Substring(0, 3) + ") has " + GameManager.ROSTER[GameManager.PARTY[1]].gold + "gp";
+        if (GameManager.PARTY.Count > 2) whoShopsContent_pnl.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[GameManager.PARTY[2]].name + " (" + GameManager.ROSTER[GameManager.PARTY[2]].alignment.ToString().Substring(0, 1) + "-" + GameManager.ROSTER[GameManager.PARTY[2]].job.ToString().Substring(0, 3) + ") has " + GameManager.ROSTER[GameManager.PARTY[2]].gold + "gp";
+        if (GameManager.PARTY.Count > 3) whoShopsContent_pnl.transform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[GameManager.PARTY[3]].name + " (" + GameManager.ROSTER[GameManager.PARTY[3]].alignment.ToString().Substring(0, 1) + "-" + GameManager.ROSTER[GameManager.PARTY[3]].job.ToString().Substring(0, 3) + ") has " + GameManager.ROSTER[GameManager.PARTY[3]].gold + "gp";
+        if (GameManager.PARTY.Count > 4) whoShopsContent_pnl.transform.GetChild(4).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[GameManager.PARTY[4]].name + " (" + GameManager.ROSTER[GameManager.PARTY[4]].alignment.ToString().Substring(0, 1) + "-" + GameManager.ROSTER[GameManager.PARTY[4]].job.ToString().Substring(0, 3) + ") has " + GameManager.ROSTER[GameManager.PARTY[4]].gold + "gp";
+        if (GameManager.PARTY.Count > 5) whoShopsContent_pnl.transform.GetChild(5).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[GameManager.PARTY[5]].name + " (" + GameManager.ROSTER[GameManager.PARTY[5]].alignment.ToString().Substring(0, 1) + "-" + GameManager.ROSTER[GameManager.PARTY[5]].job.ToString().Substring(0, 3) + ") has " + GameManager.ROSTER[GameManager.PARTY[5]].gold + "gp";
     }
 
     public void PayTithe()
     {
-        GameManager.PARTY[_selectedCharacter].gold -= ((int)GameManager.PARTY[_selectedCharacter].gold / 10);
+        GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold -= ((int)GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold / 10);
         TempleMessage_pnl.SetActive(true);
         UpdateSave();
         TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "Bless you child, for your donation! May AEOS' favor walk with you always.";
@@ -43,11 +43,11 @@ public class TempleShopController : MonoBehaviour
     public void Resurrect(int n)
     {
         TempleMessage_pnl.SetActive(true);
-        if (GameManager.PARTY[_selectedCharacter].gold < _cost[n]) //FAIL, not enough gp
+        if (GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold < _cost[n]) //FAIL, not enough gp
         {
             TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "Alas child, you are unable to donate sufficent funds to honor AEOS for this boon. Return when you have more coin.";
         }
-        if (GameManager.PARTY[_selectedCharacter].gold < _cost[n]) //Have enough money, take a chance
+        if (GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold < _cost[n]) //Have enough money, take a chance
         {
             TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "CHANT! MURMER! INVOKE!\n\n";
             _randomRoll = Random.Range(1f, 100f);
@@ -57,7 +57,7 @@ public class TempleShopController : MonoBehaviour
                 GameManager.ROSTER[n].hp = 1; //restore health to 1
                 GameManager.ROSTER[n].ashes = false; GameManager.ROSTER[n].dead = false; //restore to life
                 GameManager.ROSTER[n].weeksOld += Random.Range(1, 53); //Age between 1 and 52 weeks
-                GameManager.PARTY[_selectedCharacter].gold -= _cost[n];
+                GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold -= _cost[n];
                 UpdateSave();
             }
             else //Fail Check
@@ -65,7 +65,7 @@ public class TempleShopController : MonoBehaviour
                 TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text += "Curses! " + _tempToon.name + " has been reduced to ashes!";
                 GameManager.ROSTER[n].ashes = true;
                 GameManager.ROSTER[n].weeksOld += Random.Range(1, 53); //Age between 1 and 52 weeks
-                GameManager.PARTY[_selectedCharacter].gold -= _cost[n];
+                GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold -= _cost[n];
                 UpdateSave();
             }
         }
@@ -74,11 +74,11 @@ public class TempleShopController : MonoBehaviour
     public void ResFromAsh(int n)
     {
         TempleMessage_pnl.SetActive(true);
-        if (GameManager.PARTY[_selectedCharacter].gold < _cost[n]) //FAIL, not enough gp
+        if (GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold < _cost[n]) //FAIL, not enough gp
         {
             TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "Alas child, you are unable to donate sufficent funds to honor AEOS for this boon. Return when you have more coin.";
         }
-        if (GameManager.PARTY[_selectedCharacter].gold < _cost[n]) //Have enough money, take a chance
+        if (GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold < _cost[n]) //Have enough money, take a chance
         {
             TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "CHANT! MURMER! INVOKE!\n\n";
             _randomRoll = Random.Range(1f, 100f);            
@@ -88,7 +88,7 @@ public class TempleShopController : MonoBehaviour
                 GameManager.ROSTER[n].hp = GameManager.ROSTER[n].maxHP; //restore health
                 GameManager.ROSTER[n].ashes = false; GameManager.ROSTER[n].dead = false; //restore to life
                 GameManager.ROSTER[n].weeksOld += Random.Range(1, 53); //Age between 1 and 52 weeks
-                GameManager.PARTY[_selectedCharacter].gold -= _cost[n];
+                GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold -= _cost[n];
                 UpdateSave();
             }
             else //Fail Check
@@ -96,7 +96,7 @@ public class TempleShopController : MonoBehaviour
                 TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text += "Curses! " + _tempToon.name + " has been utterly destroyed!";
                 GameManager.ROSTER.Remove(_tempToon);
                 GameManager.ROSTER[n].weeksOld += Random.Range(1, 53); //Age between 1 and 52 weeks
-                GameManager.PARTY[_selectedCharacter].gold -= _cost[n];
+                GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold -= _cost[n];
                 UpdateSave();
             }
         }
@@ -105,7 +105,7 @@ public class TempleShopController : MonoBehaviour
     public void Restore(int n)
     {
         TempleMessage_pnl.SetActive(true);
-        if (GameManager.PARTY[_selectedCharacter].gold < _cost[n]) //FAIL, not enough gp
+        if(GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold < _cost[n]) //FAIL, not enough gp
         {
             TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text = "Alas child, you are unable to donate sufficent funds to honor AEOS for this boon. Return when you have more coin.";
         }
@@ -115,7 +115,7 @@ public class TempleShopController : MonoBehaviour
             TempleMessage_pnl.transform.Find("Message Text").GetComponent<TMPro.TextMeshProUGUI>().text += _tempToon.name + " has been restored!";
             GameManager.ROSTER[n].plyze = false;
             GameManager.ROSTER[n].stoned = false;
-            GameManager.PARTY[_selectedCharacter].gold -= _cost[n];
+            GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold -= _cost[n];
             UpdateSave();
         }
     }
@@ -124,8 +124,8 @@ public class TempleShopController : MonoBehaviour
     {
         //init the variables and lists and such
         _paitent.Clear(); _service.Clear(); _cost.Clear();
-        for (int _i = 0; _i < GameManager.ROSTER.Count; _i++) if (GameManager.ROSTER[_i] == GameManager.PARTY[_selectedCharacter]) _paitent.Add(_i);
-        _service.Add("Tithe"); _cost.Add((int)GameManager.PARTY[_selectedCharacter].gold / 10);        
+        for (int _i = 0; _i < GameManager.ROSTER.Count; _i++) if (GameManager.ROSTER[_i] == GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]]) _paitent.Add(_i);
+        _service.Add("Tithe"); _cost.Add((int)GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold / 10);        
 
         //build the lists
         for (int _i = 0; _i < GameManager.ROSTER.Count; _i++) if (GameManager.ROSTER[_i].ashes) { _paitent.Add(_i); _service.Add("Restore from Ash"); _cost.Add(500 * GameManager.ROSTER[_i].level); }
@@ -141,7 +141,7 @@ public class TempleShopController : MonoBehaviour
         {
             _go = Instantiate(shopLineItem_PF, servicesContent_pnl.transform);
             _go.transform.Find("ItemName").GetComponent<TMPro.TextMeshProUGUI>().text = _service[_i] + " (" + GameManager.ROSTER[_paitent[_i]].name + ")";
-            _go.transform.Find("ItemPrice").GetComponent<TMPro.TextMeshProUGUI>().text = ((int)GameManager.PARTY[_selectedCharacter].gold / 10) + "gp";
+            _go.transform.Find("ItemPrice").GetComponent<TMPro.TextMeshProUGUI>().text = ((int)GameManager.ROSTER[GameManager.PARTY[_selectedCharacter]].gold / 10) + "gp";
         }
     }
 

@@ -156,7 +156,7 @@ public class CharacterScreenController : MonoBehaviour
 
     public void TradeItem()
     {
-        if (!GameManager.PARTY.Contains(GameManager.ROSTER[selected_character]) || GameManager.PARTY.Count == 1)
+        if (!GameManager.PARTY.Contains(selected_character) || GameManager.PARTY.Count == 1)
         {
             messagePanel.SetActive(true);
             messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = "You may not trade items unless you are in a party with other characters.";
@@ -169,8 +169,8 @@ public class CharacterScreenController : MonoBehaviour
             for (int _i = 0; _i < GameManager.PARTY.Count; _i++)
             {
                 partyTargetPanel.transform.Find("Panel").GetChild(_i).gameObject.SetActive(true);
-                partyTargetPanel.transform.Find("Panel").GetChild(_i).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.PARTY[_i].name + " the " + GameManager.PARTY[_i].job.ToString();
-                if (GameManager.PARTY[_i] == GameManager.ROSTER[selected_character]) partyTargetPanel.transform.Find("Panel").GetChild(_i).gameObject.SetActive(false);
+                partyTargetPanel.transform.Find("Panel").GetChild(_i).GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[GameManager.PARTY[_i]].name + " the " + GameManager.ROSTER[GameManager.PARTY[_i]].job.ToString();
+                if (GameManager.PARTY[_i] == selected_character) partyTargetPanel.transform.Find("Panel").GetChild(_i).gameObject.SetActive(false);
             }
         }
 
@@ -182,7 +182,7 @@ public class CharacterScreenController : MonoBehaviour
         itemInteractPanel.SetActive(false);
         messagePanel.SetActive(true);
         bool _trade = false; int _selectSlot = -1;
-        for (int _i = 0; _i < GameManager.PARTY[n].bag.Length; _i++) if (!_trade && GameManager.PARTY[n].bag[_i] == null) { _trade = true; _selectSlot = _i; }
+        for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[n]].bag.Length; _i++) if (!_trade && GameManager.ROSTER[GameManager.PARTY[n]].bag[_i] == null) { _trade = true; _selectSlot = _i; }
         if (GameManager.ROSTER[selected_character].bag[_selected_Item_Index].curseActive) _trade = false;
         if (!_trade)
         {
@@ -190,8 +190,8 @@ public class CharacterScreenController : MonoBehaviour
         }
         else
         {
-            messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[selected_character].bag[_selected_Item_Index].name + " traded to " + GameManager.PARTY[n].name;
-            GameManager.PARTY[n].bag[_selectSlot] = new ItemInstance(GameManager.ROSTER[selected_character].bag[_selected_Item_Index]);
+            messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = GameManager.ROSTER[selected_character].bag[_selected_Item_Index].name + " traded to " + GameManager.ROSTER[GameManager.PARTY[n]].name;
+            GameManager.ROSTER[GameManager.PARTY[n]].bag[_selectSlot] = new ItemInstance(GameManager.ROSTER[selected_character].bag[_selected_Item_Index]);
             GameManager.ROSTER[selected_character].bag[_selected_Item_Index].equipped = false;
             GameManager.ROSTER[selected_character].bag[_selected_Item_Index] = null;
             UpdateCharacterScreen();
