@@ -295,6 +295,7 @@ public class BoltacShopController : MonoBehaviour
             GameManager.PARTY[_i].gold = 0;
         }
         GameManager.PARTY[_selected_Character].gold = _totalGOld;
+        UpdateSaveGame();
     }
     
     public void UpdateSaveGame()

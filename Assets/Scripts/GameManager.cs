@@ -26,15 +26,17 @@ public class GameManager : MonoBehaviour
         SaveLoadModule.LoadGame();
 
         
-        for (int _i = 0; _i < 10; _i++) ROSTER[0].bag[_i] = new ItemInstance(LISTS.itemList[Random.Range(1, LISTS.itemList.Count)]);
-        ROSTER[0].bag[0] = new ItemInstance(LISTS.itemList[23]);
-        ROSTER[0].bag[0].identified = true;
-        ROSTER[0].bag[4] = new ItemInstance(LISTS.itemList[24]);
-        ROSTER[0].bag[4].identified = true;
-        ROSTER[0].bag[8] = new ItemInstance(LISTS.itemList[92]);
-        ROSTER[0].bag[9] = new ItemInstance(LISTS.itemList[93]);
+//        for (int _i = 0; _i < 10; _i++)
+//        {
+//            ROSTER[0].bag[_i] = new ItemInstance(LISTS.itemList[Random.Range(1, LISTS.itemList.Count)]);
+//            ROSTER[0].bag[_i].identified = true;
+//        }
+//        ROSTER[0].bag[0] = new ItemInstance(LISTS.itemList[23]);
+//        ROSTER[0].bag[0].identified = true;
+//        ROSTER[0].bag[4] = new ItemInstance(LISTS.itemList[24]);
+//        ROSTER[0].bag[4].identified = true;
 
-        Debug.Log (Item.Alignment.Good.ToString() == PlayerCharacter.Alignment.Good.ToString());
+//        Debug.Log (Item.Alignment.Good.ToString() == PlayerCharacter.Alignment.Good.ToString());
         
         //Debug.Log(LISTS.itemList[92].itemType + " " + ROSTER[0].bag[8].refID);
         //Debug.Log(LISTS.itemList[93].itemType + " " + ROSTER[0].bag[9].refID);

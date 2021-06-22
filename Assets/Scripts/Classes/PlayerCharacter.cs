@@ -82,6 +82,27 @@ public class PlayerCharacter
     public int healthChange;
     public int xpNeededForLevelUp;
 
+    public void UpdatePlayerCharacter(PlayerCharacter _p)
+    {
+        dungeon_X = _p.dungeon_X; dungeon_Y = _p.dungeon_Y; dungeon_Level = _p.dungeon_Level;
+        name = _p.name; race = _p.race; job = _p.job; alignment = _p.alignment; weeksOld = _p.weeksOld;
+        poisoned = _p.poisoned; afraid = _p.afraid; asleep = _p.asleep; plyze = _p.plyze; stoned = _p.stoned; dead = _p.dead; ashes = _p.ashes; lost = _p.lost;
+        killedWerdna = _p.killedWerdna; blessedByGnilda = _p.blessedByGnilda; knighted = _p.knighted; starOfLlylgamyn = _p.starOfLlylgamyn;
+        strength = _p.strength; iq = _p.iq; piety = _p.piety; vitality = _p.vitality; agility = _p.agility; luck = _p.luck;
+        ep = _p.ep; level = _p.level; hp = _p.hp; maxHP = _p.maxHP;
+        head = _p.head; body = _p.body; shield = _p.shield; weapon = _p.weapon; jewelry = _p.jewelry; bag = _p.bag;
+        mageSlots = _p.mageSlots; mageSpells = _p.mageSpells; priestSlots = _p.priestSlots; priestSpells = _p.priestSpells;
+        saveVsDeath = _p.saveVsDeath; saveVsPetrify = _p.saveVsPetrify; saveVsWand = _p.saveVsWand; saveVsBreath = _p.saveVsBreath; saveVsSpell = _p.saveVsSpell;
+        newSpells = false;
+        strengthChange = 0;
+        iqChange = 0;
+        pietyChange = 0;
+        vitalityChange = 0;
+        agilityChange = 0;
+        luckChange = 0;
+        healthChange = 0;
+        xpNeededForLevelUp = 0;
+    }
 
     public void CalculateSpells()
     {

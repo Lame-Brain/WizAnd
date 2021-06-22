@@ -6,7 +6,7 @@ public class CharacterRosterInspectScreenController : MonoBehaviour
 {
     public GameObject scrollviewPanel, characterLine_pf, InspectMenuPanel, CharacterScreenPanel;    
 
-    private GameObject _go;
+    private GameObject _go;    
     public int _selected_Character;
 
     private void Start() 
@@ -50,6 +50,7 @@ public class CharacterRosterInspectScreenController : MonoBehaviour
     {
         _go = Instantiate(CharacterScreenPanel, transform.parent);
         _go.SetActive(true);
+//        _go.GetComponent<CharacterScreenController>().InitCharacterScreen();
         _go.GetComponent<CharacterScreenController>().selected_character = _selected_Character;
         _go.GetComponent<CharacterScreenController>().UpdateCharacterScreen();
     }

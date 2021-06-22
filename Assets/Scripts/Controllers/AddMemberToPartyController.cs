@@ -128,6 +128,7 @@ public class AddMemberToPartyController : MonoBehaviour
                 if (GameManager.PARTY[_selected] == GameManager.ROSTER[_i])
                     _selectedFromRoster = _i;
             _characterSheet = Instantiate(CharacterSheet_PF, Canvas_ref.transform);
+//            _characterSheet.GetComponent<CharacterScreenController>().InitCharacterScreen();
             _characterSheet.GetComponent<CharacterScreenController>().selected_character = _selectedFromRoster;
             _characterSheet.GetComponent<CharacterScreenController>().UpdateCharacterScreen();
         }

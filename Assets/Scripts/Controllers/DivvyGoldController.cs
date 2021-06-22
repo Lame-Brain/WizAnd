@@ -26,5 +26,6 @@ public class DivvyGoldController : MonoBehaviour
             textLine[_i].text = GameManager.PARTY[_i].name + " received " + (_bulkSplit + _s) + " gp.";
             Debug.Log(_i + ") " + (_bulkSplit + _s));
         }
+        SaveLoadModule.SaveGame();
     }
 }
