@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
         GAME = this;
         LISTS = this.GetComponent<ListManager>();
 
+        DontDestroyOnLoad(this.gameObject);
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+
         SaveLoadModule.LoadGame();
     }
 
