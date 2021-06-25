@@ -15,7 +15,7 @@ public class TileClass : MonoBehaviour
     public GameObject west_Link;
     public bool darkness, antiMagic, spinner, pit;
     public string northPOI, eastPOI, southPOI, westPOI, centerPOI;
-    public bool[] treasure;
+    public int treasure;
     
     public void setValue(TileClass _t)
     {
