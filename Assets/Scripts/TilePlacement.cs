@@ -95,6 +95,21 @@ public class TilePlacement : Editor
                     if (_tile.GetComponent<TileClass>().darkness) Instantiate(_tile.GetComponentInParent<TileGridClass>().dark_PF, new Vector3(_tile.transform.position.x, _tile.transform.position.y, _tile.transform.position.z), Quaternion.identity, _tile.transform);
                 }
             }
+
+            //prune connections
+            for (int _y = 0; _y < _gridSize; _y++)
+            {
+                for (int _x = 0; _x < _gridSize; _x++)
+                {
+                    if(tileGrid[_x, _y] != null)
+                    {
+                        if (tileGrid[_x, _y].GetComponent<TileClass>().north == TileClass.TransitionType.wall) tileGrid[_x, _y].GetComponent<TileClass>().north_Link = null;
+                        if (tileGrid[_x, _y].GetComponent<TileClass>().east == TileClass.TransitionType.wall) tileGrid[_x, _y].GetComponent<TileClass>().east_Link = null;
+                        if (tileGrid[_x, _y].GetComponent<TileClass>().south == TileClass.TransitionType.wall) tileGrid[_x, _y].GetComponent<TileClass>().south_Link = null;
+                        if (tileGrid[_x, _y].GetComponent<TileClass>().west == TileClass.TransitionType.wall) tileGrid[_x, _y].GetComponent<TileClass>().west_Link = null;
+                    }
+                }
+            }
         }
     }
 }
