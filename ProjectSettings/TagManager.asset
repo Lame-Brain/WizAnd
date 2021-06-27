@@ -11,6 +11,7 @@ TagManager:
   - Door
   - SecretDoor
   - Decoration
+  - Teleport
   layers:
   - Default
   - TransparentFX

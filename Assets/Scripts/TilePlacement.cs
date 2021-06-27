@@ -49,16 +49,16 @@ public class TilePlacement : Editor
             {
                 for (int _x = 0; _x < _gridSize; _x++)
                 {
-                    if (_y == (_gridSize - 1)) tileGrid[_x, _y].GetComponent<TileClass>().north_Link = tileGrid[_x, 0];
+                    if (_y == (_gridSize - 1)) tileGrid[_x, _y].GetComponent<TileClass>().north_Link = null;
                     if (_y < (_gridSize - 1)) tileGrid[_x, _y].GetComponent<TileClass>().north_Link = tileGrid[_x, _y + 1];
 
-                    if (_x == (_gridSize - 1)) tileGrid[_x, _y].GetComponent<TileClass>().east_Link = tileGrid[0, _y];
+                    if (_x == (_gridSize - 1)) tileGrid[_x, _y].GetComponent<TileClass>().east_Link = null;
                     if (_x < (_gridSize - 1)) tileGrid[_x, _y].GetComponent<TileClass>().east_Link = tileGrid[_x + 1, _y];
 
-                    if (_y == 0) tileGrid[_x, _y].GetComponent<TileClass>().south_Link = tileGrid[_x, (_gridSize - 1)];
+                    if (_y == 0) tileGrid[_x, _y].GetComponent<TileClass>().south_Link = null;
                     if (_y > 0) tileGrid[_x, _y].GetComponent<TileClass>().south_Link = tileGrid[_x, _y - 1];
 
-                    if (_x == 0) tileGrid[_x, _y].GetComponent<TileClass>().west_Link = tileGrid[(_gridSize - 1), _y];
+                    if (_x == 0) tileGrid[_x, _y].GetComponent<TileClass>().west_Link = null;
                     if (_x > 0) tileGrid[_x, _y].GetComponent<TileClass>().west_Link = tileGrid[_x - 1, _y];
                 }
             }
