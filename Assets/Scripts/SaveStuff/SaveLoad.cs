@@ -13,9 +13,9 @@ public static class SaveLoadModule
         FileStream file = File.Create(Application.persistentDataPath + "/wiz1.dsk");
         bf.Serialize(file, GameManager.ROSTER);
         file.Close();
-        FileStream fileWrld = File.Create(Application.persistentDataPath + "/wiz1.wrld");
-        bf.Serialize(fileWrld, GameManager.LISTS.itemList);
-        fileWrld.Close();
+//        FileStream fileWrld = File.Create(Application.persistentDataPath + "/wiz1.wrld");
+//        bf.Serialize(fileWrld, GameManager.LISTS.itemList);
+//        fileWrld.Close();
         LoadGame();
     }
 
@@ -33,16 +33,17 @@ public static class SaveLoadModule
             if (file.Length > 0) GameManager.ROSTER = (List<PlayerCharacter>)bf.Deserialize(file);
             file.Close();            
         }
-        if (!File.Exists(Application.persistentDataPath + "/wiz1.wrld"))
-        {
-            FileStream file = File.Create(Application.persistentDataPath + "/wiz1.wrld");
-        }
-        else
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream fileWrld = File.Open(Application.persistentDataPath + "/wiz1.wrld", FileMode.Open);
-            if (fileWrld.Length > 0) GameManager.LISTS.itemList = (List<Item>)bf.Deserialize(fileWrld);
-            fileWrld.Close();
-        }
+
+//        if (!File.Exists(Application.persistentDataPath + "/wiz1.wrld"))
+//        {
+//            FileStream file = File.Create(Application.persistentDataPath + "/wiz1.wrld");
+//        }
+//        else
+//        {
+//            BinaryFormatter bf = new BinaryFormatter();
+//            FileStream fileWrld = File.Open(Application.persistentDataPath + "/wiz1.wrld", FileMode.Open);
+//            if (fileWrld.Length > 0) GameManager.LISTS.itemList = (List<Item>)bf.Deserialize(fileWrld);
+//            fileWrld.Close();
+//        }
     }
 }
