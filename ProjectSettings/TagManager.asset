@@ -12,6 +12,7 @@ TagManager:
   - SecretDoor
   - Decoration
   - Teleport
+  - GUI_Canvas
   layers:
   - Default
   - TransparentFX

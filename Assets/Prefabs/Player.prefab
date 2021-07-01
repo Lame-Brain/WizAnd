@@ -41,8 +41,8 @@ Camera:
   m_GameObject: {fileID: 8611367364280235746}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -52,11 +52,11 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.5
+    y: 0.33
     width: 1
     height: 1
   near clip plane: 1
-  far clip plane: 1000
+  far clip plane: 22
   field of view: 70
   orthographic: 0
   orthographic size: 5
@@ -139,6 +139,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -163,6 +164,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &8611367365183482832
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -220,13 +222,13 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 5
-  m_Range: 25
+  m_Intensity: 10
+  m_Range: 20
   m_SpotAngle: 175.7
   m_InnerSpotAngle: 6
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -262,11 +264,12 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 10
+  m_BounceIntensity: 5
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &8611367365323252965
@@ -282,7 +285,7 @@ GameObject:
   - component: {fileID: 8668720593915526536}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -316,6 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429e380da1fcae249a906326da7468c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 8611367364280235751}
 --- !u!114 &8668720593915526536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,3 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c0c19e0ccd8e64da213bfe1848b282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ThisLevel: {fileID: 0}
+  facing: 0
+  moving: 0
+  turning: 0
