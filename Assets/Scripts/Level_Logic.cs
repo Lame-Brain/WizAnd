@@ -11,8 +11,9 @@ public class Level_Logic : MonoBehaviour
 
     public bool moving, turning;
     private float _move_delay = 0.15f;
-    private float _message_delay = 1f;
+    private float _message_delay = 1.5f;
     private GameObject _Old_Tile;
+    private List<GameObject> _SpecialMessages = new List<GameObject>();
 
     private void Start()
     {
@@ -26,6 +27,17 @@ public class Level_Logic : MonoBehaviour
         moving = false;
         turning = false;
         DetermineFacing();
+
+        //Special Message Panels
+        GameObject[] _SMs = GameObject.FindGameObjectsWithTag("Special_Message_Panel");
+        _SpecialMessages.Clear();
+        for (int _i = 0; _i < _SMs.Length; _i++)
+        {
+            _SpecialMessages.Add(_SMs[_i]);
+            _SMs[_i].SetActive(false);
+        }
+
+        //Secret Doors
     }
 
     public void DetermineFacing()
@@ -42,6 +54,9 @@ public class Level_Logic : MonoBehaviour
         if (this.facing == direction.south) _POI = ThisTile().GetComponent<TileClass>().southPOI;
         if (this.facing == direction.west) _POI = ThisTile().GetComponent<TileClass>().westPOI;
 
+        //if (_POI != "") Debug.Log("_POI is " + _POI + " first 7 is " + _POI.Substring(0, 7));
+
+        if (_POI != "" && _POI.Substring(0, 7) == "Message") SpecialMessage(_POI);
 
     }
 
@@ -52,7 +67,6 @@ public class Level_Logic : MonoBehaviour
         _result = GameObject.FindGameObjectWithTag("Level").transform.GetChild(_child).gameObject;
         return _result;
     }
-
 
 
 
@@ -72,11 +86,13 @@ public class Level_Logic : MonoBehaviour
         _messagePanel.SetActive(false);
     }
 
-    public void LongMessage(string _message)
+    public void SpecialMessage(string _messageName)
     {
-        GameObject _messagePanel = GameObject.FindGameObjectWithTag("GUI_Canvas").transform.Find("MessagePanel").gameObject;
-        _messagePanel.SetActive(true);
-        _messagePanel.transform.Find("MessageText").GetComponent<TMPro.TextMeshProUGUI>().text = _message;        
+        
+        if(_SpecialMessages.Count > 0) for(int _i = 0; _i < _SpecialMessages.Count; _i++) if(_SpecialMessages[_i].name == _messageName)
+                {
+                    _SpecialMessages[_i].SetActive(true);
+                }
     }
 
     public void CancelMessage()
@@ -110,10 +126,10 @@ public class Level_Logic : MonoBehaviour
             }
             if (_blocked)
             {
-                if(facing == direction.north && ThisTile().GetComponent<TileClass>().northPOI == "") ShortMessage("Unable to move through this wall.");
-                if(facing == direction.east && ThisTile().GetComponent<TileClass>().eastPOI == "") ShortMessage("Unable to move through this wall.");
-                if(facing == direction.south && ThisTile().GetComponent<TileClass>().southPOI == "") ShortMessage("Unable to move through this wall.");
-                if(facing == direction.west && ThisTile().GetComponent<TileClass>().westPOI == "") ShortMessage("Unable to move through this wall.");
+                if(facing == direction.north && ThisTile().GetComponent<TileClass>().northPOI == "") ShortMessage("Unable to move through walls.");
+                if(facing == direction.east && ThisTile().GetComponent<TileClass>().eastPOI == "") ShortMessage("Unable to move through walls.");
+                if(facing == direction.south && ThisTile().GetComponent<TileClass>().southPOI == "") ShortMessage("Unable to move through walls.");
+                if(facing == direction.west && ThisTile().GetComponent<TileClass>().westPOI == "") ShortMessage("Unable to move through walls.");
             }
         }
     }
@@ -131,7 +147,13 @@ public class Level_Logic : MonoBehaviour
         {
             GameObject[] _teleporters = GameObject.FindGameObjectsWithTag("Teleport"); //...scan for matching teleporters...
             if (_teleporters.Length > 0) for (int _i = 0; _i < _teleporters.Length; _i++) if (_teleporters[_i].name == _POI) _moveTarget = _teleporters[_i];
-            this.transform.position = _moveTarget.transform.position; this.transform.rotation = _moveTarget.transform.rotation; //teleport to move target 
+            this.transform.position = _moveTarget.transform.position; //teleport to move target 
+            //set facing
+            if (_moveTarget.transform.rotation.eulerAngles.y >= 315 && _moveTarget.transform.rotation.eulerAngles.y <= 45) facing = direction.north;
+            if (_moveTarget.transform.rotation.eulerAngles.y > 45 && _moveTarget.transform.rotation.eulerAngles.y < 135) facing = direction.east;
+            if (_moveTarget.transform.rotation.eulerAngles.y >= 135 && _moveTarget.transform.rotation.eulerAngles.y <= 225) facing = direction.south;
+            if (_moveTarget.transform.rotation.eulerAngles.y > 225 && _moveTarget.transform.rotation.eulerAngles.y < 315) facing = direction.west;
+            DetermineFacing();
         }
 
         //Move party to next tile
@@ -142,6 +164,7 @@ public class Level_Logic : MonoBehaviour
             if (facing == direction.south) _moveTarget = _Old_Tile.GetComponent<TileClass>().south_Link;
             if (facing == direction.west) _moveTarget = _Old_Tile.GetComponent<TileClass>().west_Link;
             this.transform.position = _moveTarget.transform.position; //move to move target
+            DetermineFacing();
         }
 
         moving = false;
@@ -192,5 +215,394 @@ public class Level_Logic : MonoBehaviour
     public void InspectButton()
     {
         Debug.Log("Open Inspect Dialogue");
+    }
+
+
+
+    public void MAPIRO_MAHAMA_DIROMAT()
+    {
+        //Returns party to town
+    }
+
+    public void Awaken_Murphys_Ghost()
+    {
+        //Start Murphy's Ghost Fight
+    }
+
+    public void GetBlueRibbon()
+    {
+        //Collect Blue Ribbon
+    }
+
+    public void CollectFrogFigurine()
+    {
+        bool _hasThisKey = false; int _key = 136; string _keyName = "Frog Figurine";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void CollectBearFigurine()
+    {
+        bool _hasThisKey = false; int _key = 137; string _keyName = "Bear Figurine";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void CollectBronzeKey()
+    {
+        bool _hasBronzeKey = false;
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == 138) _hasBronzeKey = true; //item ID 138 is BronzeKey
+        
+        if (!_hasBronzeKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count-1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length-1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                //GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[138]); //... and give it to them.
+                ShortMessage("You have found a Bronze Key");
+            }
+            else
+            {
+                ShortMessage("You have found a Bronze Key, but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void CollectSilverKey()
+    {
+        bool _hasThisKey = false; int _key = 139; string _keyName = "Silver Key";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true; 
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void CollectGoldKey()
+    {
+        bool _hasThisKey = false; int _key = 140; string _keyName = "Gold Key";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void Collect3Key()
+    {
+        bool _hasThisKey = false; int _key = 142; string _keyName = "Triangle Key";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void Collect4Key()
+    {
+        bool _hasThisKey = false; int _key = 143; string _keyName = "Square Key";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void Collect5Key()
+    {
+        bool _hasThisKey = false; int _key = 144; string _keyName = "Pentagonal Key";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void Collect6Key()
+    {
+        bool _hasThisKey = false; int _key = 145; string _keyName = "Hexagonal Key";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void Collect7Key()
+    {
+        bool _hasThisKey = false; int _key = 146; string _keyName = "Heptogonal Key";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void Collect8Key()
+    {
+        bool _hasThisKey = false; int _key = 147; string _keyName = "Octagonal Key";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
+    }
+
+    public void Collect9Key()
+    {
+        bool _hasThisKey = false; int _key = 148; string _keyName = "Nonagonal Key";
+        //Check for Bronze Key in inventory already
+        for (int _p = 0; _p < GameManager.PARTY.Count; _p++) //scan each member of the party            
+            for (int _i = 0; _i < GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length; _i++) //scan their bag                
+                if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] != null && GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i].refID == _key) _hasThisKey = true;
+
+        if (!_hasThisKey) //if the party does not have the bronze key...
+        {
+            //...Find an empty slot...
+            int _freeslot = -1, _freeToon = -1;
+            for (int _p = GameManager.PARTY.Count - 1; _p >= 0; _p--)
+                for (int _i = GameManager.ROSTER[GameManager.PARTY[_p]].bag.Length - 1; _i >= 0; _i--)
+                    if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
+            if (_freeslot >= 0 && _freeToon >= 0)
+            {
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                ShortMessage("You have found a " + _keyName);
+            }
+            else
+            {
+                ShortMessage("You have found a " + _keyName + ", but do not have a way to carry it."); //...unless they're out of inventory space
+            }
+        }
+        else
+        {
+            ShortMessage("You do not find anything."); //The party has the key already
+        }
     }
 }

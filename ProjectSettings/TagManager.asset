@@ -13,6 +13,7 @@ TagManager:
   - Decoration
   - Teleport
   - GUI_Canvas
+  - Special_Message_Panel
   layers:
   - Default
   - TransparentFX
