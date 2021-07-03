@@ -6,7 +6,7 @@ using UnityEngine;
 [CustomEditor(typeof(TileGridClass))]
 public class TilePlacement : Editor
 {
-    public override void OnInspectorGUI()
+    public void OnInspectorGUI()
     {
         if (GUILayout.Button("Build the Tiles"))
         {

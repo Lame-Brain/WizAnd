@@ -6,7 +6,7 @@ using UnityEngine;
 [CustomEditor(typeof(TileClass))]
 public class TileBuild : Editor
 {
-    public override void OnInspectorGUI()
+    public void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 

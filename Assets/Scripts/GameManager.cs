@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
-        //UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
 
         SaveLoadModule.LoadGame();
 
