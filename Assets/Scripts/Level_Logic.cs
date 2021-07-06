@@ -306,6 +306,7 @@ public class Level_Logic : MonoBehaviour
         
         if (!_hasBronzeKey) //if the party does not have the bronze key...
         {
+            Debug.Log("Party does not have key");
             //...Find an empty slot...
             int _freeslot = -1, _freeToon = -1;
             for (int _p = GameManager.PARTY.Count-1; _p >= 0; _p--)
@@ -315,14 +316,17 @@ public class Level_Logic : MonoBehaviour
             {
                 //GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[138]); //... and give it to them.
                 ShortMessage("You have found a Bronze Key");
+                Debug.Log("Party gets the key");
             }
             else
             {
                 ShortMessage("You have found a Bronze Key, but do not have a way to carry it."); //...unless they're out of inventory space
+                Debug.Log("Inventory is full");
             }
         }
         else
         {
+            Debug.Log("Party does have key");
             ShortMessage("You do not find anything."); //The party has the key already
         }
     }

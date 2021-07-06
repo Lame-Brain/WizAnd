@@ -65,6 +65,5 @@ public class CampMenu_Controller : MonoBehaviour
 
     public void QuitAndSave()
     {
-
     }
 }

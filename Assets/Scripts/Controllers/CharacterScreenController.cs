@@ -60,18 +60,27 @@ public class CharacterScreenController : MonoBehaviour
                         GameManager.ROSTER[selected_character].priestSlots[6];
         for (int _i = 0; _i < GameManager.ROSTER[selected_character].bag.Length; _i++)
         {
-            //if (GameManager.ROSTER[selected_character].bag[_i] == null) BagSlots[_i].text = "";
+            /*
             BagSlots[_i].text = "";
             if (GameManager.ROSTER[selected_character].bag[_i] != null)
             {
-                //if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "";
                 BagSlots[_i].text = "";
                 if (!CheckRestrictFlags(GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_i].refID].allowEquip)) if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text = "#";
                 if (GameManager.ROSTER[selected_character].bag[_i].equipped) BagSlots[_i].text = "*";
                 if (GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text += GameManager.ROSTER[selected_character].bag[_i].name;
                 if (!GameManager.ROSTER[selected_character].bag[_i].identified) BagSlots[_i].text += "?" + GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_i].refID].itemType.ToString();
             }
-
+            */
+            BagSlots[_i].text = "";
+            if (GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i] != null)
+            {
+                BagSlots[_i].text = "";
+                Debug.Log("DOes this resolve? " + GameManager.LISTS.itemList[1].itemName);
+                if (!CheckRestrictFlags(GameManager.LISTS.itemList[GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].refID].allowEquip)) if (GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].identified) BagSlots[_i].text = "#";
+                if (GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].equipped) BagSlots[_i].text = "*";
+                if (GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].identified) BagSlots[_i].text += GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].name;
+                if (!GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].identified) BagSlots[_i].text += "?" + GameManager.LISTS.itemList[GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].refID].itemType.ToString();
+            }
         }
     }
 

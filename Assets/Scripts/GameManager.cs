@@ -22,15 +22,18 @@ public class GameManager : MonoBehaviour
     {
         GAME = this;
         LISTS = this.GetComponent<ListManager>();
+        LISTS.LoadLists();
 
         DontDestroyOnLoad(this.gameObject);
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");        
 
         SaveLoadModule.LoadGame();
 
         //DEBUG PARTY
-        for(int p = 0; p < 6; p++) PARTY.Add(p);
+        //for(int p = 0; p < 6; p++) PARTY.Add(p);
+
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("Level 1");
     }
 
 

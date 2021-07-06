@@ -5,6 +5,7 @@ using UnityEngine;
 public class DungeonGUIController : MonoBehaviour
 {
     public Level_Logic ThisLevel;
+    public GameObject CharacterScreen_PF;
 
     public void UpdateGUI()
     {
@@ -38,5 +39,12 @@ public class DungeonGUIController : MonoBehaviour
             ThisLevel.InspectButton();
         }
 
+    }
+
+    public void InspectCharacter(int _p)
+    {
+        GameObject _go = Instantiate(CharacterScreen_PF, transform);
+        _go.GetComponent<CharacterScreenController>().selected_character = _p;
+        _go.GetComponent<CharacterScreenController>().UpdateCharacterScreen();
     }
 }

@@ -9,7 +9,7 @@ public class ListManager : MonoBehaviour
     public List<MonsterStack> monsterList = new List<MonsterStack>();
 
     // loads lists at startup
-    void Awake()
+    public void LoadLists()
     {
         //mage spells
         spellList.Add(new Spell("Know Location", "DUMAPIC", Spell.Source.none, Spell.Type.mage, Spell.Target.self, 1, "Divine current location", false, true));
