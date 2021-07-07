@@ -74,8 +74,7 @@ public class CharacterScreenController : MonoBehaviour
             BagSlots[_i].text = "";
             if (GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i] != null)
             {
-                BagSlots[_i].text = "";
-                Debug.Log("DOes this resolve? " + GameManager.LISTS.itemList[1].itemName);
+                BagSlots[_i].text = "";                
                 if (!CheckRestrictFlags(GameManager.LISTS.itemList[GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].refID].allowEquip)) if (GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].identified) BagSlots[_i].text = "#";
                 if (GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].equipped) BagSlots[_i].text = "*";
                 if (GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].identified) BagSlots[_i].text += GameManager.ROSTER[GameManager.PARTY[selected_character]].bag[_i].name;

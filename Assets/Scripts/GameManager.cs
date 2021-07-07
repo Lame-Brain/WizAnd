@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager GAME;
-    public static ListManager LISTS;    
+    public static ListManager LISTS;
 
     public static List<PlayerCharacter> ROSTER = new List<PlayerCharacter>();
     public static List<int> PARTY = new List<int>();
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");        
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
 
         SaveLoadModule.LoadGame();
 
@@ -40,10 +40,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
     }
-        
+
     void Update()
     {
-        
+
     }
 
     public void DebugLog(string s)
@@ -64,6 +64,20 @@ public class GameManager : MonoBehaviour
             _go.GetComponent<PartyPanelController>().UpdatePartyPanel();
             Debug.Log("Updating Party Panel");
         }
-        if(_go == null) Debug.Log("Unable to update Party Panel");
+        if (_go == null) Debug.Log("Unable to update Party Panel");
+    }
+
+    public void EnterMazeFromTown()
+    {
+        // 1. mark party members as OUT
+        for (int _i = 0; _i < GameManager.PARTY.Count; _i++) GameManager.ROSTER[GameManager.PARTY[_i]].lost = true;
+
+        // 2. transition to level 1
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Level 1");
+
+        // 3. Set party location to appropriate spot
+        GameObject _player = GameObject.FindGameObjectWithTag("Player");
+        GameObject _fromAbove = null;
+        foreach (GameObject _go in GameObject.FindGameObjectsWithTag("Teleport")) if (_go.name == "FromAbove") { _player.transform.position = _go.transform.position; _player.transform.rotation = _go.transform.rotation; }
     }
 }

@@ -314,7 +314,7 @@ public class Level_Logic : MonoBehaviour
                     if (GameManager.ROSTER[GameManager.PARTY[_p]].bag[_i] == null) { _freeslot = _i; _freeToon = _p; }
             if (_freeslot >= 0 && _freeToon >= 0)
             {
-                //GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[138]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[138]); //... and give it to them.
                 ShortMessage("You have found a Bronze Key");
                 Debug.Log("Party gets the key");
             }

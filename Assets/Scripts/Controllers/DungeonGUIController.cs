@@ -41,6 +41,16 @@ public class DungeonGUIController : MonoBehaviour
 
     }
 
+    public void GoUpLevel()
+    {
+
+    }
+
+    public void GoDownLevel()
+    {
+
+    }
+
     public void InspectCharacter(int _p)
     {
         GameObject _go = Instantiate(CharacterScreen_PF, transform);
