@@ -7,6 +7,27 @@ public class DungeonGUIController : MonoBehaviour
     public Level_Logic ThisLevel;
     public GameObject CharacterScreen_PF;
 
+    private void Start()
+    {
+        GameObject _player = GameObject.FindGameObjectWithTag("Player");
+        GameObject _target_WP = null;
+
+        if (GameManager.CONTEXT == "Up")
+        {
+            foreach (GameObject _this_wp in GameObject.FindGameObjectsWithTag("Teleport")) if (_this_wp.name == "FromAbove") _target_WP = _this_wp;
+            _player.transform.position = _target_WP.transform.position;
+            _player.transform.rotation = _target_WP.transform.rotation;
+            GameManager.CONTEXT = "Dungeon";
+        }
+        if (GameManager.CONTEXT == "Down")
+        {
+            foreach (GameObject _this_wp in GameObject.FindGameObjectsWithTag("Teleport")) if (_this_wp.name == "FromBelow") _target_WP = _this_wp;
+            _player.transform.position = _target_WP.transform.position;
+            _player.transform.rotation = _target_WP.transform.rotation;
+            GameManager.CONTEXT = "Dungeon";
+        }
+    }
+
     public void UpdateGUI()
     {
         GameManager.GAME.UpdatePartyPanel();
@@ -41,14 +62,19 @@ public class DungeonGUIController : MonoBehaviour
 
     }
 
+    public void GoToTown()
+    {
+        GameManager.GAME.EnterTown();
+    }
+
     public void GoUpLevel()
     {
-
+        GameManager.GAME.GoUpLevel();
     }
 
     public void GoDownLevel()
     {
-
+        GameManager.GAME.GoDownLevel();
     }
 
     public void InspectCharacter(int _p)

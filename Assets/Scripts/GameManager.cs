@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager GAME;
     public static ListManager LISTS;
+    public static string CONTEXT;
 
     public static List<PlayerCharacter> ROSTER = new List<PlayerCharacter>();
     public static List<int> PARTY = new List<int>();
@@ -27,11 +28,13 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+        CONTEXT = "Town";
 
         SaveLoadModule.LoadGame();
 
         //DEBUG PARTY
-        //for(int p = 0; p < 6; p++) PARTY.Add(p);
+        for(int p = 0; p < 6; p++) PARTY.Add(p);
+        //ROSTER[PARTY[0]].gold = 10000;
 
         //UnityEngine.SceneManagement.SceneManager.LoadScene("Level 1");
     }
@@ -80,4 +83,38 @@ public class GameManager : MonoBehaviour
         GameObject _fromAbove = null;
         foreach (GameObject _go in GameObject.FindGameObjectsWithTag("Teleport")) if (_go.name == "FromAbove") { _player.transform.position = _go.transform.position; _player.transform.rotation = _go.transform.rotation; }
     }
+
+    public void EnterTown()
+    {
+        Debug.Log("THE PARTY RE-ENTERS TOWN");
+        CONTEXT = "Town";
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
+        for(int _i = 0; _i < PARTY.Count; _i++)
+        {
+            ROSTER[PARTY[_i]].lost = false;
+            ROSTER[PARTY[_i]].poisoned = false;
+            ROSTER[PARTY[_i]].mageSlots = ROSTER[PARTY[_i]].mageSlots_full;
+            ROSTER[PARTY[_i]].priestSlots = ROSTER[PARTY[_i]].priestSlots_full;
+            if (ROSTER[PARTY[_i]].plyze || ROSTER[PARTY[_i]].stoned || ROSTER[PARTY[_i]].dead || ROSTER[PARTY[_i]].ashes) PARTY.RemoveAt(_i);
+        }
+        SaveLoadModule.SaveGame();
+    }
+
+    public void GoUpLevel()
+    {
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 2) EnterTown();
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex > 2)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex - 1);
+            CONTEXT = "Up";
+        }
+    }
+
+    public void GoDownLevel()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
+        CONTEXT = "Down";
+    }
+
+
 }

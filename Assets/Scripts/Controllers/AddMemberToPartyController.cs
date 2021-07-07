@@ -35,12 +35,12 @@ public class AddMemberToPartyController : MonoBehaviour
         DisplayRoster.Clear();
         for (int _i = 0; _i < GameManager.ROSTER.Count; _i++)
         {
-             if (!GameManager.ROSTER[_i].plyze &&
-                 !GameManager.ROSTER[_i].dead &&
-                 !GameManager.ROSTER[_i].ashes &&
-                 !GameManager.ROSTER[_i].stoned &&
-                 !GameManager.ROSTER[_i].lost &&
-                 !DisplayParty.Contains(_i)) 
+             //if (!GameManager.ROSTER[_i].plyze &&
+             //    !GameManager.ROSTER[_i].dead &&
+             //    !GameManager.ROSTER[_i].ashes &&
+             //    !GameManager.ROSTER[_i].stoned &&
+             //    !GameManager.ROSTER[_i].lost &&
+             //    !DisplayParty.Contains(_i)) 
                  DisplayRoster.Add(_i);
         }
     }
@@ -84,8 +84,9 @@ public class AddMemberToPartyController : MonoBehaviour
 
     public void PartyLineClickedOn(int _i)
     {
-        if (_i >= GameManager.PARTY.Count) //check if the clicked party line is greater than the party count
+        if (_i <= DisplayParty.Count - 1) //check if the clicked party line is greater than the party count
         {
+            //Debug.Log("Removing " + GameManager.ROSTER[DisplayParty[_i].name)
             DisplayParty.RemoveAt(_i);
             UpdateScreen();
         }

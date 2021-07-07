@@ -299,7 +299,7 @@ public class CharacterScreenController : MonoBehaviour
                 GameManager.ROSTER[selected_character].head = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
                 GameManager.ROSTER[selected_character].head.equipped = true;
                 //if the item is cursed, apply the curse
-                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].head.curseActive = true; _cursed = true; }
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].head.identified = true; GameManager.ROSTER[selected_character].head.curseActive = true; _cursed = true; }
                 //if the alignment is mis-matched, apply the curse
                 if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment != Item.Alignment.Any && GameManager.ROSTER[selected_character].alignment.ToString() != GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment.ToString())
                 { GameManager.ROSTER[selected_character].head.curseActive = true; _cursed = true; }
@@ -309,7 +309,7 @@ public class CharacterScreenController : MonoBehaviour
                 GameManager.ROSTER[selected_character].shield = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
                 GameManager.ROSTER[selected_character].shield.equipped = true;
                 //if the item is cursed, apply the curse
-                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].shield.curseActive = true; _cursed = true; }
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].shield.identified = true; GameManager.ROSTER[selected_character].shield.curseActive = true; _cursed = true; }
                 //if the alignment is mis-matched, apply the curse
                 if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment != Item.Alignment.Any && GameManager.ROSTER[selected_character].alignment.ToString() != GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment.ToString())
                 { GameManager.ROSTER[selected_character].shield.curseActive = true; _cursed = true; }
@@ -319,7 +319,7 @@ public class CharacterScreenController : MonoBehaviour
                 GameManager.ROSTER[selected_character].body = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
                 GameManager.ROSTER[selected_character].body.equipped = true;
                 //if the item is cursed, apply the curse
-                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].body.curseActive = true; _cursed = true; }
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].body.identified = true; GameManager.ROSTER[selected_character].body.curseActive = true; _cursed = true; }
                 //if the alignment is mis-matched, apply the curse
                 if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment != Item.Alignment.Any && GameManager.ROSTER[selected_character].alignment.ToString() != GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment.ToString())
                 { GameManager.ROSTER[selected_character].body.curseActive = true; _cursed = true; }
@@ -331,7 +331,7 @@ public class CharacterScreenController : MonoBehaviour
                 GameManager.ROSTER[selected_character].jewelry = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
                 GameManager.ROSTER[selected_character].jewelry.equipped = true;
                 //if the item is cursed, apply the curse
-                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].jewelry.curseActive = true; _cursed = true; }
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].jewelry.identified = true; GameManager.ROSTER[selected_character].jewelry.curseActive = true; _cursed = true; }
                 //if the alignment is mis-matched, apply the curse
                 if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment != Item.Alignment.Any && GameManager.ROSTER[selected_character].alignment.ToString() != GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment.ToString())
                 { GameManager.ROSTER[selected_character].jewelry.curseActive = true; _cursed = true; }
@@ -346,7 +346,7 @@ public class CharacterScreenController : MonoBehaviour
                 GameManager.ROSTER[selected_character].weapon = GameManager.ROSTER[selected_character].bag[_selected_Item_Index];
                 GameManager.ROSTER[selected_character].weapon.equipped = true;
                 //if the item is cursed, apply the curse
-                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].weapon.curseActive = true; _cursed = true; }
+                if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].cursed) { GameManager.ROSTER[selected_character].weapon.identified = true; GameManager.ROSTER[selected_character].weapon.curseActive = true; _cursed = true; }
                 //if the alignment is mis-matched, apply the curse
                 if (GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment != Item.Alignment.Any && GameManager.ROSTER[selected_character].alignment.ToString() != GameManager.LISTS.itemList[GameManager.ROSTER[selected_character].bag[_selected_Item_Index].refID].alignment.ToString())
                 { GameManager.ROSTER[selected_character].weapon.curseActive = true; _cursed = true; }

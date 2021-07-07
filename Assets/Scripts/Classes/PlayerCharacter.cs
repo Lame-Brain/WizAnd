@@ -60,7 +60,9 @@ public class PlayerCharacter
 
     //spells
     public int[] mageSlots = new int[7];
+    public int[] mageSlots_full = new int[7];
     public int[] priestSlots = new int[7];
+    public int[] priestSlots_full = new int[7];
     public List<string> mageSpells = new List<string>();
     public List<string> priestSpells = new List<string>();
 
@@ -91,7 +93,7 @@ public class PlayerCharacter
         strength = _p.strength; iq = _p.iq; piety = _p.piety; vitality = _p.vitality; agility = _p.agility; luck = _p.luck;
         ep = _p.ep; level = _p.level; hp = _p.hp; maxHP = _p.maxHP;
         head = _p.head; body = _p.body; shield = _p.shield; weapon = _p.weapon; jewelry = _p.jewelry; bag = _p.bag;
-        mageSlots = _p.mageSlots; mageSpells = _p.mageSpells; priestSlots = _p.priestSlots; priestSpells = _p.priestSpells;
+        mageSlots = _p.mageSlots; mageSlots_full = _p.mageSlots_full; mageSpells = _p.mageSpells; priestSlots = _p.priestSlots; priestSlots_full = _p.priestSlots_full; priestSpells = _p.priestSpells;
         saveVsDeath = _p.saveVsDeath; saveVsPetrify = _p.saveVsPetrify; saveVsWand = _p.saveVsWand; saveVsBreath = _p.saveVsBreath; saveVsSpell = _p.saveVsSpell;
         newSpells = false;
         strengthChange = 0;
@@ -170,8 +172,8 @@ public class PlayerCharacter
         //clamp spell slots to 9 for each spell level
         for (int _i = 1; _i < 7; _i++)
         {
-            if (mageSlots[_i] > 9) mageSlots[_i] = 9;
-            if (priestSlots[_i] > 9) priestSlots[_i] = 9;
+            if (mageSlots[_i] > 9) mageSlots[_i] = 9; mageSlots_full[_i] = mageSlots[_i];
+            if (priestSlots[_i] > 9) priestSlots[_i] = 9; priestSlots_full[_i] = priestSlots[_i];
         }
     }
 

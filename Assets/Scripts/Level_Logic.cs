@@ -54,9 +54,9 @@ public class Level_Logic : MonoBehaviour
         if (this.facing == direction.south) _POI = ThisTile().GetComponent<TileClass>().southPOI;
         if (this.facing == direction.west) _POI = ThisTile().GetComponent<TileClass>().westPOI;
 
-        //if (_POI != "") Debug.Log("_POI is " + _POI + " first 7 is " + _POI.Substring(0, 7));
-
-        if (_POI != "" && _POI.Substring(0, 7) == "Message") SpecialMessage(_POI);
+        if (_POI != "")
+            if (_POI.Substring(0, 7) == "Message" || _POI.Substring(0, 7) == "Ladder_")
+                SpecialMessage(_POI);
 
     }
 
@@ -88,11 +88,10 @@ public class Level_Logic : MonoBehaviour
 
     public void SpecialMessage(string _messageName)
     {
-        
-        if(_SpecialMessages.Count > 0) for(int _i = 0; _i < _SpecialMessages.Count; _i++) if(_SpecialMessages[_i].name == _messageName)
-                {
+
+        if (_SpecialMessages.Count > 0) for (int _i = 0; _i < _SpecialMessages.Count; _i++)
+                if (_SpecialMessages[_i].name == _messageName)
                     _SpecialMessages[_i].SetActive(true);
-                }
     }
 
     public void CancelMessage()
@@ -252,6 +251,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -283,6 +283,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -315,8 +316,12 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[138]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a Bronze Key");
                 Debug.Log("Party gets the key");
+
+                //DEBUG
+                GameManager.ROSTER[_freeToon].bag[_freeslot+1] = new ItemInstance(GameManager.LISTS.itemList[46]); //Cursed sword
             }
             else
             {
@@ -349,6 +354,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -380,6 +386,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -411,6 +418,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -442,6 +450,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -473,6 +482,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -504,6 +514,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -535,6 +546,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -566,6 +578,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
@@ -597,6 +610,7 @@ public class Level_Logic : MonoBehaviour
             if (_freeslot >= 0 && _freeToon >= 0)
             {
                 GameManager.ROSTER[_freeToon].bag[_freeslot] = new ItemInstance(GameManager.LISTS.itemList[_key]); //... and give it to them.
+                GameManager.ROSTER[_freeToon].bag[_freeslot].identified = true;
                 ShortMessage("You have found a " + _keyName);
             }
             else
