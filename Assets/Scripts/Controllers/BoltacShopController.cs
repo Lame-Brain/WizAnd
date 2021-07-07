@@ -267,6 +267,7 @@ public class BoltacShopController : MonoBehaviour
             BuyMenuPanel.transform.Find("BuyErrorPanel").gameObject.SetActive(true);
             BuyMenuPanel.transform.Find("BuyErrorPanel").GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Sorry! Inventory Full!";
         }
+        SaveLoadModule.SaveGame();
     }
 
     public void YES_SELL()
@@ -294,6 +295,7 @@ public class BoltacShopController : MonoBehaviour
             //SELL FAIL! Cursed!
             SellMenuPanel.transform.Find("SellErrorPanel").gameObject.SetActive(true);
         }
+        SaveLoadModule.SaveGame();
     }
 
     public void YES_ID()
@@ -312,6 +314,7 @@ public class BoltacShopController : MonoBehaviour
             //ID FAIL! Not enough money
             ID_ConfirmPanel.transform.Find("ID_ErrorPanel").gameObject.SetActive(true);
         }
+        SaveLoadModule.SaveGame();
     }
 
     public void YES_UNCURSE()
@@ -329,9 +332,9 @@ public class BoltacShopController : MonoBehaviour
             GameManager.ROSTER[GameManager.PARTY[_i]].gold = 0;
         }
         GameManager.ROSTER[GameManager.PARTY[_selected_Character]].gold = _totalGOld;
-        UpdateSaveGame();
+        SaveLoadModule.SaveGame();
     }
-    
+
     public void UpdateSaveGame()
     {
         SaveLoadModule.SaveGame();
