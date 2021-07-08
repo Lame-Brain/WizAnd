@@ -26,6 +26,12 @@ public class DungeonGUIController : MonoBehaviour
             _player.transform.rotation = _target_WP.transform.rotation;
             GameManager.CONTEXT = "Dungeon";
         }
+
+        if (_player.transform.rotation.eulerAngles.y >= 315 && _player.transform.rotation.eulerAngles.y <= 45) _player.GetComponent<Level_Logic>().facing = Level_Logic.direction.north;
+        if (_player.transform.rotation.eulerAngles.y > 45 && _player.transform.rotation.eulerAngles.y < 135) _player.GetComponent<Level_Logic>().facing = Level_Logic.direction.east;
+        if (_player.transform.rotation.eulerAngles.y >= 135 && _player.transform.rotation.eulerAngles.y <= 225) _player.GetComponent<Level_Logic>().facing = Level_Logic.direction.south;
+        if (_player.transform.rotation.eulerAngles.y > 225 && _player.transform.rotation.eulerAngles.y < 315) _player.GetComponent<Level_Logic>().facing = Level_Logic.direction.west;
+        _player.GetComponent<Level_Logic>().DetermineFacing();
     }
 
     public void UpdateGUI()

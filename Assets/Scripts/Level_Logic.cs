@@ -7,7 +7,8 @@ public class Level_Logic : MonoBehaviour
     public GameObject ThisLevel;
     
     public enum direction { north, east, south, west }
-    public direction facing;    
+    public direction facing;
+    public Material door_Mat, wall_Mat;
 
     public bool moving, turning;
     private float _move_delay = 0.15f;
@@ -38,6 +39,7 @@ public class Level_Logic : MonoBehaviour
         }
 
         //Secret Doors
+        SecretDoorsAreWalls();
     }
 
     public void DetermineFacing()
@@ -101,9 +103,15 @@ public class Level_Logic : MonoBehaviour
         _messagePanel.SetActive(false);
     }
 
+    public void SecretDoorsAreWalls()
+    {
+        foreach (GameObject _secretDoor in GameObject.FindGameObjectsWithTag("SecretDoor")) _secretDoor.GetComponent<Renderer>().material = wall_Mat;
+    }
 
-
-
+    public void SecretDoorsAreDoors()
+    {
+        foreach (GameObject _secretDoor in GameObject.FindGameObjectsWithTag("SecretDoor")) _secretDoor.GetComponent<Renderer>().material = door_Mat;
+    }
 
 
     public void MoveForward()
