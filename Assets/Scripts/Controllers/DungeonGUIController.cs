@@ -12,14 +12,14 @@ public class DungeonGUIController : MonoBehaviour
         GameObject _player = GameObject.FindGameObjectWithTag("Player");
         GameObject _target_WP = null;
 
-        if (GameManager.CONTEXT == "Up")
+        if (GameManager.CONTEXT == "Down")
         {
             foreach (GameObject _this_wp in GameObject.FindGameObjectsWithTag("Teleport")) if (_this_wp.name == "FromAbove") _target_WP = _this_wp;
             _player.transform.position = _target_WP.transform.position;
             _player.transform.rotation = _target_WP.transform.rotation;
             GameManager.CONTEXT = "Dungeon";
         }
-        if (GameManager.CONTEXT == "Down")
+        if (GameManager.CONTEXT == "Up")
         {
             foreach (GameObject _this_wp in GameObject.FindGameObjectsWithTag("Teleport")) if (_this_wp.name == "FromBelow") _target_WP = _this_wp;
             _player.transform.position = _target_WP.transform.position;

@@ -6,7 +6,7 @@ public class BoltacShopController : MonoBehaviour
 {
     public GameObject WhoShopsPanel, ShopServicesPanel, BuyMenuPanel, BuyScrollPanel, BuyConfirmPanel;
     public GameObject SellMenuPanel, SellScrollPanel, SellConfirmPanel, ID_MenuPanel, ID_ConfirmPanel, UncurseMenuPanel, UncurseConfirmPanel, PoolGoldPanel;
-    public GameObject ShopLineItem_PF;
+    public GameObject ShopLineItem_PF, CharacterSheet_PF;    
     public TMPro.TextMeshProUGUI[] shopper, ID_PanelSlots, Uncurse_PanelSlots;
     public TMPro.TextMeshProUGUI goldReport;
 
@@ -171,7 +171,7 @@ public class BoltacShopController : MonoBehaviour
         PoolGoldPanel.SetActive(false);
         WhoShopsPanel.SetActive(false);
 
-        //populate the identify list
+        //populate the uncurse list
         for (int _i = 0; _i < Uncurse_PanelSlots.Length; _i++)
         {
             if (GameManager.ROSTER[GameManager.PARTY[_selected_Character]].bag[_i] != null)
@@ -338,5 +338,26 @@ public class BoltacShopController : MonoBehaviour
     public void UpdateSaveGame()
     {
         SaveLoadModule.SaveGame();
+    }
+
+    public void NextCharacter()
+    {
+        int _n = _selected_Character + 1;
+        if (_n > GameManager.ROSTER.Count - 1) _n = 0;
+        CharacterLineClicked(_n);
+    }
+
+    public void PrevCharacter()
+    {
+        int _n = _selected_Character - 1;
+        if (_n == 0) _n = GameManager.ROSTER.Count - 1;
+        CharacterLineClicked(_n);
+    }
+
+    public void InspectCharacter()
+    {
+        GameObject _go = Instantiate(CharacterSheet_PF, transform);
+        _go.GetComponent<CharacterScreenController>().selected_character = GameManager.PARTY[_selected_Character];
+        _go.GetComponent<CharacterScreenController>().UpdateCharacterScreen();
     }
 }

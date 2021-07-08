@@ -33,8 +33,9 @@ public class GameManager : MonoBehaviour
         SaveLoadModule.LoadGame();
 
         //DEBUG PARTY
-        for(int p = 0; p < 6; p++) PARTY.Add(p);
-        //ROSTER[PARTY[0]].gold = 10000;
+        //for(int p = 0; p < 6; p++) PARTY.Add(p);
+        //ROSTER[PARTY[0]].gold = 509;
+        //ROSTER[5].stoned = true;
 
         //UnityEngine.SceneManagement.SceneManager.LoadScene("Level 1");
     }

@@ -60,7 +60,6 @@ public class CampMenu_Controller : MonoBehaviour
             _go.GetComponent<CharacterScreenController>().selected_character = GameManager.PARTY[_selected];
             _go.GetComponent<CharacterScreenController>().UpdateCharacterScreen();
         }
-
     }
 
     public void QuitAndSave()
